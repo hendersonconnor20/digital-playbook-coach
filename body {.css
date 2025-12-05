@@ -1,0 +1,71 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #0e1626;
+  color: #f3f3f3;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #005bbb;
+  padding: 1rem;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+nav button {
+  margin: 0.3rem;
+  padding: 0.6rem 1rem;
+  background-color: #f3f3f3;
+  color: #005bbb;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+nav button:hover {
+  background-color: #cfe2ff;
+}
+
+main {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+section {
+  display: none;
+}
+
+section.active {
+  display: block;
+}
+
+#playList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.playCard {
+  background-color: #1b2b45;
+  border: 2px solid #005bbb;
+  border-radius: 10px;
+  width: 80%;
+  margin: 10px;
+  padding: 10px;
+}
+
+footer {
+  text-align: center;
+  background-color: #005bbb;
+  padding: 0.5rem;
+  color: white;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}

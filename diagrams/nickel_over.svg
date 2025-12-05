@@ -1,0 +1,130 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .field { fill: #2d5016; }
+      .player { fill: #fff; stroke: #000; stroke-width: 2; }
+      .player-o { fill: #ff6b6b; stroke: #000; stroke-width: 2; }
+      .label { font-size: 10px; font-weight: bold; fill: #000; text-anchor: middle; }
+      .label-white { font-size: 10px; font-weight: bold; fill: #fff; text-anchor: middle; }
+      .arrow { stroke: #4ecdc4; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .arrow-strong { stroke: #95e1d3; stroke-width: 2.5; fill: none; marker-end: url(#arrowhead); }
+      .title { font-size: 16px; font-weight: bold; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#4ecdc4" />
+    </marker>
+  </defs>
+  
+  <rect class="field" x="30" y="40" width="740" height="520"/>
+  
+  <!-- Yard lines -->
+  <line x1="30" y1="70" x2="770" y2="70" stroke="#ccc" stroke-width="1"/>
+  <line x1="30" y1="190" x2="770" y2="190" stroke="#fff" stroke-width="2"/>
+  <line x1="30" y1="310" x2="770" y2="310" stroke="#ccc" stroke-width="1" stroke-dasharray="5,5"/>
+  
+  <text x="400" y="25" class="title" text-anchor="middle" fill="#000">Nickel Over vs 11 Personnel (TE Strong)</text>
+  
+  <!-- OFFENSE -->
+  <circle class="player-o" cx="250" cy="110" r="11"/>
+  <text class="label" x="250" y="115">LT</text>
+  <circle class="player-o" cx="295" cy="110" r="11"/>
+  <text class="label" x="295" y="115">LG</text>
+  <circle class="player-o" cx="340" cy="110" r="11"/>
+  <text class="label" x="340" y="115">C</text>
+  <circle class="player-o" cx="385" cy="110" r="11"/>
+  <text class="label" x="385" y="115">RG</text>
+  <circle class="player-o" cx="430" cy="110" r="11"/>
+  <text class="label" x="430" y="115">RT</text>
+  
+  <!-- TE inline strong side -->
+  <circle class="player-o" cx="470" cy="110" r="11"/>
+  <text class="label" x="470" y="115">TE</text>
+  
+  <!-- QB from shotgun -->
+  <circle class="player-o" cx="340" cy="155" r="11"/>
+  <text class="label" x="340" y="160">QB</text>
+  <circle class="player-o" cx="290" cy="155" r="11"/>
+  <text class="label" x="290" y="160">RB</text>
+  
+  <!-- 3-wide receivers (2 weak, 1 strong) -->
+  <circle class="player-o" cx="100" cy="95" r="11"/>
+  <text class="label" x="100" y="100">WR1</text>
+  <circle class="player-o" cx="100" cy="155" r="11"/>
+  <text class="label" x="100" y="160">WR2</text>
+  <circle class="player-o" cx="580" cy="120" r="11"/>
+  <text class="label" x="580" y="125">WR3</text>
+  
+  <!-- DEFENSE - Nickel package -->
+  <!-- DL -->
+  <circle class="player" cx="270" cy="355" r="11"/>
+  <text class="label-white" x="270" y="360">LDE</text>
+  <circle class="player" cx="310" cy="355" r="11"/>
+  <text class="label-white" x="310" y="360">DT</text>
+  <circle class="player" cx="370" cy="355" r="11"/>
+  <text class="label-white" x="370" y="360">DT</text>
+  <circle class="player" cx="410" cy="355" r="11"/>
+  <text class="label-white" x="410" y="360">RDE</text>
+  
+  <!-- LBs (only 2) -->
+  <circle class="player" cx="310" cy="420" r="11"/>
+  <text class="label-white" x="310" y="425">Mike</text>
+  <circle class="player" cx="370" cy="420" r="11"/>
+  <text class="label-white" x="370" y="425">Will</text>
+  
+  <!-- Nickel CB -->
+  <circle class="player" cx="340" cy="460" r="11"/>
+  <text class="label-white" x="340" y="465">Nickel</text>
+  
+  <!-- Corners and Safeties -->
+  <circle class="player" cx="130" cy="480" r="11"/>
+  <text class="label-white" x="130" y="485">CB-L</text>
+  <circle class="player" cx="650" cy="480" r="11"/>
+  <text class="label-white" x="650" y="485">CB-R</text>
+  <circle class="player" cx="340" cy="510" r="11"/>
+  <text class="label-white" x="340" y="515">FS</text>
+  <circle class="player" cx="480" cy="460" r="11"/>
+  <text class="label-white" x="480" y="465">SS</text>
+  
+  <!-- DEFENSIVE ARROWS - Man coverage with SS blitz -->
+  <path class="arrow" d="M 270 355 Q 220 300 200 220"/>
+  <text x="210" y="280" font-size="8" fill="#4ecdc4">Edge</text>
+  
+  <path class="arrow" d="M 310 355 L 310 240"/>
+  <text x="320" y="300" font-size="8" fill="#4ecdc4">Gap</text>
+  
+  <path class="arrow" d="M 370 355 L 370 240"/>
+  <text x="380" y="300" font-size="8" fill="#4ecdc4">Gap</text>
+  
+  <path class="arrow" d="M 410 355 Q 460 300 480 220"/>
+  <text x="460" y="280" font-size="8" fill="#4ecdc4">Edge</text>
+  
+  <!-- Mike man on TE -->
+  <path class="arrow-strong" d="M 310 420 Q 350 280 470 140"/>
+  <text x="380" y="300" font-size="8" fill="#95e1d3">TE man</text>
+  
+  <!-- Will man on weak WR -->
+  <path class="arrow" d="M 370 420 L 100 170"/>
+  <text x="240" y="300" font-size="8" fill="#4ecdc4">WR man</text>
+  
+  <!-- Nickel on slot -->
+  <path class="arrow" d="M 340 460 L 580 140"/>
+  <text x="450" y="310" font-size="8" fill="#4ecdc4">Slot</text>
+  
+  <!-- CB-L on boundary -->
+  <path class="arrow" d="M 130 480 L 100 170"/>
+  <text x="100" y="330" font-size="8" fill="#4ecdc4">Man</text>
+  
+  <!-- CB-R on boundary WR -->
+  <path class="arrow" d="M 650 480 L 580 140"/>
+  <text x="620" y="320" font-size="8" fill="#4ecdc4">Man</text>
+  
+  <!-- FS deep middle -->
+  <path class="arrow-strong" d="M 340 510 L 340 250"/>
+  <text x="360" y="380" font-size="8" fill="#95e1d3">Deep</text>
+  
+  <!-- SS blitz down hole -->
+  <path class="arrow-strong" d="M 480 460 Q 420 400 380 350"/>
+  <text x="440" y="410" font-size="8" fill="#95e1d3">Blitz</text>
+  
+  <text x="40" y="560" font-size="9" fill="#000">Nickel 4-2-5: Man-free | TE motion strong side | SS aggressive blitz | LBs cover receivers</text>
+</svg>

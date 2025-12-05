@@ -1,0 +1,131 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .field { fill: #2d5016; }
+      .player { fill: #fff; stroke: #000; stroke-width: 2; }
+      .player-o { fill: #ff6b6b; stroke: #000; stroke-width: 2; }
+      .label { font-size: 10px; font-weight: bold; fill: #000; text-anchor: middle; }
+      .label-white { font-size: 10px; font-weight: bold; fill: #fff; text-anchor: middle; }
+      .arrow { stroke: #4ecdc4; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .arrow-strong { stroke: #95e1d3; stroke-width: 2.5; fill: none; marker-end: url(#arrowhead); }
+      .title { font-size: 16px; font-weight: bold; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#4ecdc4" />
+    </marker>
+  </defs>
+  
+  <rect class="field" x="30" y="40" width="740" height="520"/>
+  
+  <line x1="30" y1="70" x2="770" y2="70" stroke="#ccc" stroke-width="1"/>
+  <line x1="30" y1="190" x2="770" y2="190" stroke="#fff" stroke-width="2"/>
+  <line x1="30" y1="310" x2="770" y2="310" stroke="#ccc" stroke-width="1" stroke-dasharray="5,5"/>
+  
+  <text x="400" y="25" class="title" text-anchor="middle" fill="#000">Fire Zone (Inside Zone Run) vs 20 Personnel</text>
+  
+  <!-- OFFENSE - Ace (split backs) -->
+  <!-- OL -->
+  <circle class="player-o" cx="250" cy="110" r="11"/>
+  <text class="label" x="250" y="115">LT</text>
+  <circle class="player-o" cx="295" cy="110" r="11"/>
+  <text class="label" x="295" y="115">LG</text>
+  <circle class="player-o" cx="340" cy="110" r="11"/>
+  <text class="label" x="340" y="115">C</text>
+  <circle class="player-o" cx="385" cy="110" r="11"/>
+  <text class="label" x="385" y="115">RG</text>
+  <circle class="player-o" cx="430" cy="110" r="11"/>
+  <text class="label" x="430" y="115">RT</text>
+  
+  <!-- Two split backs -->
+  <circle class="player-o" cx="310" cy="155" r="11"/>
+  <text class="label" x="310" y="160">RB1</text>
+  <circle class="player-o" cx="370" cy="155" r="11"/>
+  <text class="label" x="370" y="160">RB2</text>
+  
+  <!-- QB under center -->
+  <circle class="player-o" cx="340" cy="195" r="11"/>
+  <text class="label" x="340" y="200">QB</text>
+  
+  <!-- 3 WRs spread -->
+  <circle class="player-o" cx="100" cy="110" r="11"/>
+  <text class="label" x="100" y="115">WR1</text>
+  <circle class="player-o" cx="100" cy="160" r="11"/>
+  <text class="label" x="100" y="165">WR2</text>
+  <circle class="player-o" cx="580" cy="155" r="11"/>
+  <text class="label" x="580" y="160">WR3</text>
+  
+  <!-- DEFENSE - 4-3 even -->
+  <!-- DL -->
+  <circle class="player" cx="270" cy="355" r="11"/>
+  <text class="label-white" x="270" y="360">LDE</text>
+  <circle class="player" cx="310" cy="355" r="11"/>
+  <text class="label-white" x="310" y="360">DT</text>
+  <circle class="player" cx="370" cy="355" r="11"/>
+  <text class="label-white" x="370" y="360">DT</text>
+  <circle class="player" cx="410" cy="355" r="11"/>
+  <text class="label-white" x="410" y="360">RDE</text>
+  
+  <!-- LBs -->
+  <circle class="player" cx="290" cy="420" r="11"/>
+  <text class="label-white" x="290" y="425">Sam</text>
+  <circle class="player" cx="340" cy="420" r="11"/>
+  <text class="label-white" x="340" y="425">Mike</text>
+  <circle class="player" cx="390" cy="420" r="11"/>
+  <text class="label-white" x="390" y="425">Will</text>
+  
+  <!-- DBs -->
+  <circle class="player" cx="130" cy="480" r="11"/>
+  <text class="label-white" x="130" y="485">CB-L</text>
+  <circle class="player" cx="650" cy="480" r="11"/>
+  <text class="label-white" x="650" y="485">CB-R</text>
+  <circle class="player" cx="340" cy="510" r="11"/>
+  <text class="label-white" x="340" y="515">FS</text>
+  <circle class="player" cx="280" cy="510" r="11"/>
+  <text class="label-white" x="280" y="515">SS</text>
+  
+  <!-- DEFENSIVE ARROWS - Zone blitz, inside zone run read -->
+  <!-- LDE crashes down inside -->
+  <path class="arrow-strong" d="M 270 355 L 300 240"/>
+  <text x="280" y="290" font-size="8" fill="#95e1d3">Crash</text>
+  
+  <!-- Left DT pushes up -->
+  <path class="arrow" d="M 310 355 L 310 240"/>
+  <text x="325" y="300" font-size="8" fill="#4ecdc4">Push</text>
+  
+  <!-- Right DT pushes up -->
+  <path class="arrow" d="M 370 355 L 370 240"/>
+  <text x="385" y="300" font-size="8" fill="#4ecdc4">Push</text>
+  
+  <!-- RDE contains edge -->
+  <path class="arrow" d="M 410 355 Q 460 300 480 240"/>
+  <text x="450" y="290" font-size="8" fill="#4ecdc4">Contain</text>
+  
+  <!-- Sam scrapes/blitz A-gap -->
+  <path class="arrow-strong" d="M 290 420 L 300 355"/>
+  <text x="270" y="390" font-size="8" fill="#95e1d3">Blitz</text>
+  
+  <!-- Mike reads zone flow -->
+  <path class="arrow" d="M 340 420 L 340 300"/>
+  <text x="355" y="360" font-size="8" fill="#4ecdc4">Read</text>
+  
+  <!-- Will scrapes weak side -->
+  <path class="arrow" d="M 390 420 L 360 355"/>
+  <text x="410" y="390" font-size="8" fill="#4ecdc4">Flow</text>
+  
+  <!-- CBs to outside thirds -->
+  <path class="arrow" d="M 130 480 L 100 250"/>
+  <text x="100" y="370" font-size="8" fill="#4ecdc4">1/3</text>
+  
+  <path class="arrow" d="M 650 480 L 580 250"/>
+  <text x="620" y="370" font-size="8" fill="#4ecdc4">1/3</text>
+  
+  <!-- FS deep -->
+  <path class="arrow-strong" d="M 340 510 L 340 270"/>
+  <text x="360" y="390" font-size="8" fill="#95e1d3">Deep</text>
+  
+  <!-- SS help over top -->
+  <path class="arrow" d="M 280 510 L 290 380"/>
+  <text x="270" y="450" font-size="8" fill="#4ecdc4">Help</text>
+  
+  <text x="40" y="560" font-size="9" fill="#000">4-3 Even: Zone blitz action | Sam/LDE crash | ILBs read and flow | Run-first call</text>
+</svg>

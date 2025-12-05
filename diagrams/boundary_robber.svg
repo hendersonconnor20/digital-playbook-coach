@@ -1,0 +1,129 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .field { fill: #2d5016; }
+      .player { fill: #fff; stroke: #000; stroke-width: 2; }
+      .player-o { fill: #ff6b6b; stroke: #000; stroke-width: 2; }
+      .label { font-size: 10px; font-weight: bold; fill: #000; text-anchor: middle; }
+      .label-white { font-size: 10px; font-weight: bold; fill: #fff; text-anchor: middle; }
+      .arrow { stroke: #4ecdc4; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .arrow-strong { stroke: #95e1d3; stroke-width: 2.5; fill: none; marker-end: url(#arrowhead); }
+      .title { font-size: 16px; font-weight: bold; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#4ecdc4" />
+    </marker>
+  </defs>
+  
+  <rect class="field" x="30" y="40" width="740" height="520"/>
+  
+  <line x1="30" y1="70" x2="770" y2="70" stroke="#ccc" stroke-width="1"/>
+  <line x1="30" y1="190" x2="770" y2="190" stroke="#fff" stroke-width="2"/>
+  <line x1="30" y1="310" x2="770" y2="310" stroke="#ccc" stroke-width="1" stroke-dasharray="5,5"/>
+  
+  <text x="400" y="25" class="title" text-anchor="middle" fill="#000">Boundary Robber vs 11 Personnel (3-Wide Stack)</text>
+  
+  <!-- OFFENSE - 11 personnel with stack to boundary -->
+  <!-- OL -->
+  <circle class="player-o" cx="250" cy="110" r="11"/>
+  <text class="label" x="250" y="115">LT</text>
+  <circle class="player-o" cx="295" cy="110" r="11"/>
+  <text class="label" x="295" y="115">LG</text>
+  <circle class="player-o" cx="340" cy="110" r="11"/>
+  <text class="label" x="340" y="115">C</text>
+  <circle class="player-o" cx="385" cy="110" r="11"/>
+  <text class="label" x="385" y="115">RG</text>
+  <circle class="player-o" cx="430" cy="110" r="11"/>
+  <text class="label" x="430" y="115">RT</text>
+  
+  <!-- TE on weak side -->
+  <circle class="player-o" cx="190" cy="110" r="11"/>
+  <text class="label" x="190" y="115">TE</text>
+  
+  <!-- QB -->
+  <circle class="player-o" cx="340" cy="155" r="11"/>
+  <text class="label" x="340" y="160">QB</text>
+  
+  <!-- RB -->
+  <circle class="player-o" cx="290" cy="155" r="11"/>
+  <text class="label" x="290" y="160">RB</text>
+  
+  <!-- 3 WRs stacked to boundary -->
+  <circle class="player-o" cx="650" cy="95" r="11"/>
+  <text class="label" x="650" y="100">WR1</text>
+  <circle class="player-o" cx="650" cy="140" r="11"/>
+  <text class="label" x="650" y="145">WR2</text>
+  <circle class="player-o" cx="650" cy="185" r="11"/>
+  <text class="label" x="650" y="190">WR3</text>
+  
+  <!-- DEFENSE - Nickel dime package -->
+  <!-- DL -->
+  <circle class="player" cx="270" cy="355" r="11"/>
+  <text class="label-white" x="270" y="360">LDE</text>
+  <circle class="player" cx="310" cy="355" r="11"/>
+  <text class="label-white" x="310" y="360">DT</text>
+  <circle class="player" cx="370" cy="355" r="11"/>
+  <text class="label-white" x="370" y="360">DT</text>
+  <circle class="player" cx="410" cy="355" r="11"/>
+  <text class="label-white" x="410" y="360">RDE</text>
+  
+  <!-- LBs (only Mike) -->
+  <circle class="player" cx="340" cy="420" r="11"/>
+  <text class="label-white" x="340" y="425">Mike</text>
+  
+  <!-- Corners (3) plus Nickel -->
+  <circle class="player" cx="150" cy="480" r="11"/>
+  <text class="label-white" x="150" y="485">CB-L</text>
+  <circle class="player" cx="550" cy="480" r="11"/>
+  <text class="label-white" x="550" y="485">CB-R</text>
+  <circle class="player" cx="630" cy="420" r="11"/>
+  <text class="label-white" x="630" y="425">Nickel</text>
+  
+  <!-- Safeties -->
+  <circle class="player" cx="340" cy="510" r="11"/>
+  <text class="label-white" x="340" y="515">FS</text>
+  <circle class="player" cx="280" cy="480" r="11"/>
+  <text class="label-white" x="280" y="485">SS</text>
+  
+  <!-- DEFENSIVE ARROWS - Quarters coverage, Mike robber, Nickel to boundary -->
+  <!-- LDE contains -->
+  <path class="arrow" d="M 270 355 Q 220 300 200 240"/>
+  <text x="210" y="290" font-size="8" fill="#4ecdc4">Edge</text>
+  
+  <!-- DTs two-gap -->
+  <path class="arrow" d="M 310 355 L 310 240"/>
+  <text x="325" y="300" font-size="8" fill="#4ecdc4">Gap</text>
+  
+  <path class="arrow" d="M 370 355 L 370 240"/>
+  <text x="385" y="300" font-size="8" fill="#4ecdc4">Gap</text>
+  
+  <!-- RDE contain -->
+  <path class="arrow" d="M 410 355 Q 460 300 480 240"/>
+  <text x="450" y="290" font-size="8" fill="#4ecdc4">Edge</text>
+  
+  <!-- Mike cheats to field, looks for crosser -->
+  <path class="arrow-strong" d="M 340 420 L 380 280"/>
+  <text x="370" y="350" font-size="8" fill="#95e1d3">Robber</text>
+  
+  <!-- CB-L to outside third -->
+  <path class="arrow" d="M 150 480 L 100 250"/>
+  <text x="110" y="370" font-size="8" fill="#4ecdc4">Out 1/3</text>
+  
+  <!-- CB-R to outside third (field) -->
+  <path class="arrow" d="M 550 480 L 500 250"/>
+  <text x="520" y="370" font-size="8" fill="#4ecdc4">Out 1/3</text>
+  
+  <!-- Nickel plays robber to boundary stack -->
+  <path class="arrow-strong" d="M 630 420 L 650 220"/>
+  <text x="665" y="320" font-size="8" fill="#95e1d3">Rob</text>
+  
+  <!-- FS deep seam -->
+  <path class="arrow-strong" d="M 340 510 L 340 270"/>
+  <text x="360" y="390" font-size="8" fill="#95e1d3">Deep</text>
+  
+  <!-- SS run support box -->
+  <path class="arrow" d="M 280 480 L 290 380"/>
+  <text x="270" y="430" font-size="8" fill="#4ecdc4">Run</text>
+  
+  <text x="40" y="560" font-size="9" fill="#000">Quarters: 3 DBs to outside thirds | Mike robber middle | Nickel over boundary stack | SS cuts</text>
+</svg>

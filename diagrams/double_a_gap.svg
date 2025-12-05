@@ -1,0 +1,139 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .field { fill: #2d5016; }
+      .player { fill: #fff; stroke: #000; stroke-width: 2; }
+      .player-o { fill: #ff6b6b; stroke: #000; stroke-width: 2; }
+      .label { font-size: 10px; font-weight: bold; fill: #000; text-anchor: middle; }
+      .label-white { font-size: 10px; font-weight: bold; fill: #fff; text-anchor: middle; }
+      .arrow { stroke: #4ecdc4; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .arrow-strong { stroke: #95e1d3; stroke-width: 2.5; fill: none; marker-end: url(#arrowhead); }
+      .title { font-size: 16px; font-weight: bold; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#4ecdc4" />
+    </marker>
+  </defs>
+  
+  <rect class="field" x="30" y="40" width="740" height="520"/>
+  
+  <line x1="30" y1="70" x2="770" y2="70" stroke="#ccc" stroke-width="1"/>
+  <line x1="30" y1="190" x2="770" y2="190" stroke="#fff" stroke-width="2"/>
+  <line x1="30" y1="310" x2="770" y2="310" stroke="#ccc" stroke-width="1" stroke-dasharray="5,5"/>
+  
+  <text x="400" y="25" class="title" text-anchor="middle" fill="#000">Double A Gap (Power Run) vs 12 Personnel I-Form</text>
+  
+  <!-- OFFENSE - I-form strong side -->
+  <!-- Linemen -->
+  <circle class="player-o" cx="250" cy="110" r="11"/>
+  <text class="label" x="250" y="115">LT</text>
+  <circle class="player-o" cx="295" cy="110" r="11"/>
+  <text class="label" x="295" y="115">LG</text>
+  <circle class="player-o" cx="340" cy="110" r="11"/>
+  <text class="label" x="340" y="115">C</text>
+  <circle class="player-o" cx="385" cy="110" r="11"/>
+  <text class="label" x="385" y="115">RG</text>
+  <circle class="player-o" cx="430" cy="110" r="11"/>
+  <text class="label" x="430" y="115">RT</text>
+  
+  <!-- TEs inline (blocking) -->
+  <circle class="player-o" cx="470" cy="110" r="11"/>
+  <text class="label" x="470" y="115">TE</text>
+  <circle class="player-o" cx="190" cy="110" r="11"/>
+  <text class="label" x="190" y="115">TE</text>
+  
+  <!-- I-form stack - QB, RBs -->
+  <circle class="player-o" cx="340" cy="155" r="11"/>
+  <text class="label" x="340" y="160">QB</text>
+  <circle class="player-o" cx="340" cy="195" r="11"/>
+  <text class="label" x="340" y="200">RB1</text>
+  <circle class="player-o" cx="310" cy="195" r="11"/>
+  <text class="label" x="310" y="200">RB2</text>
+  
+  <!-- 2 WRs off formation -->
+  <circle class="player-o" cx="100" cy="155" r="11"/>
+  <text class="label" x="100" y="160">WR1</text>
+  <circle class="player-o" cx="580" cy="155" r="11"/>
+  <text class="label" x="580" y="160">WR2</text>
+  
+  <!-- DEFENSE - 3-4 Under -->
+  <!-- NT -->
+  <circle class="player" cx="340" cy="355" r="11"/>
+  <text class="label-white" x="340" y="360">NT</text>
+  
+  <!-- Ends -->
+  <circle class="player" cx="280" cy="355" r="11"/>
+  <text class="label-white" x="280" y="360">DE</text>
+  <circle class="player" cx="400" cy="355" r="11"/>
+  <text class="label-white" x="400" y="360">DE</text>
+  
+  <!-- OLBs/Edge -->
+  <circle class="player" cx="230" cy="355" r="11"/>
+  <text class="label-white" x="230" y="360">Sam</text>
+  <circle class="player" cx="450" cy="355" r="11"/>
+  <text class="label-white" x="450" y="360">Buck</text>
+  
+  <!-- ILBs -->
+  <circle class="player" cx="310" cy="420" r="11"/>
+  <text class="label-white" x="310" y="425">Mike</text>
+  <circle class="player" cx="370" cy="420" r="11"/>
+  <text class="label-white" x="370" y="425">Will</text>
+  
+  <!-- Corners -->
+  <circle class="player" cx="130" cy="480" r="11"/>
+  <text class="label-white" x="130" y="485">CB-L</text>
+  <circle class="player" cx="650" cy="480" r="11"/>
+  <text class="label-white" x="650" y="485">CB-R</text>
+  
+  <!-- Safeties -->
+  <circle class="player" cx="340" cy="510" r="11"/>
+  <text class="label-white" x="340" y="515">FS</text>
+  <circle class="player" cx="280" cy="510" r="11"/>
+  <text class="label-white" x="280" y="515">SS</text>
+  
+  <!-- DEFENSIVE ARROWS - Gap control, Mike/Will A-gap penetration -->
+  <!-- Sam edge pressure -->
+  <path class="arrow" d="M 230 355 Q 180 300 150 240"/>
+  <text x="180" y="290" font-size="8" fill="#4ecdc4">Edge</text>
+  
+  <!-- Left DE two-gap -->
+  <path class="arrow" d="M 280 355 L 280 240"/>
+  <text x="265" y="300" font-size="8" fill="#4ecdc4">2-Gap</text>
+  
+  <!-- NT occupies double team -->
+  <path class="arrow-strong" d="M 340 355 L 340 220"/>
+  <text x="360" y="290" font-size="8" fill="#95e1d3">Double</text>
+  
+  <!-- Right DE two-gap -->
+  <path class="arrow" d="M 400 355 L 400 240"/>
+  <text x="415" y="300" font-size="8" fill="#4ecdc4">2-Gap</text>
+  
+  <!-- Buck edge -->
+  <path class="arrow" d="M 450 355 Q 500 300 530 240"/>
+  <text x="500" y="290" font-size="8" fill="#4ecdc4">Edge</text>
+  
+  <!-- Mike penetrates A-gap left -->
+  <path class="arrow-strong" d="M 310 420 L 295 360"/>
+  <text x="285" y="390" font-size="8" fill="#95e1d3">A-Gap</text>
+  
+  <!-- Will penetrates A-gap right -->
+  <path class="arrow-strong" d="M 370 420 L 385 360"/>
+  <text x="405" y="390" font-size="8" fill="#95e1d3">A-Gap</text>
+  
+  <!-- CBs back coverage -->
+  <path class="arrow" d="M 130 480 L 100 250"/>
+  <text x="100" y="370" font-size="8" fill="#4ecdc4">Man</text>
+  
+  <path class="arrow" d="M 650 480 L 580 250"/>
+  <text x="620" y="370" font-size="8" fill="#4ecdc4">Man</text>
+  
+  <!-- FS deep -->
+  <path class="arrow-strong" d="M 340 510 L 340 270"/>
+  <text x="360" y="390" font-size="8" fill="#95e1d3">Deep</text>
+  
+  <!-- SS run support -->
+  <path class="arrow" d="M 280 510 L 310 380"/>
+  <text x="280" y="450" font-size="8" fill="#4ecdc4">Run</text>
+  
+  <text x="40" y="560" font-size="9" fill="#000">3-4 Under: NT takes double, Mike/Will gap penetration, edges set contain on power run</text>
+</svg>

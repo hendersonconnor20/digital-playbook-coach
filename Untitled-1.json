@@ -1,0 +1,22 @@
+{
+  "plays": [
+    {
+      "name": "Base Cover 3",
+      "formation": "4-3 Defense",
+      "coverage": "Cover 3 Zone",
+      "blitz": "None"
+    },
+    {
+      "name": "Nickel Over",
+      "formation": "Nickel 4-2-5",
+      "coverage": "Cover 2 Man",
+      "blitz": "Strong Safety Blitz"
+    },
+    {
+      "name": "Double A Gap",
+      "formation": "3-4",
+      "coverage": "Man-Free",
+      "blitz": "Mike and Will"
+    }
+  ]
+}

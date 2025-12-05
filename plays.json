@@ -1,0 +1,79 @@
+{
+  "plays": [
+    {
+      "name": "4-2-5 Cover 1",
+      "offensiveFormation": "2x2 Spread (2 WR left, 2 WR right, 1 RB)",
+      "offensivePlay": "Four verticals, mesh, or zone read",
+      "defensiveFormation": "4-2-5 Base",
+      "coverage": "Cover 1 (Man-Free)",
+      "blitz": "None",
+      "note": "CBs and Nickel play man coverage. FS deep middle. Mike and Will cover RB/TE. DL responsible for gap integrity.",
+      "keyReads": ["QB drop", "RB release", "TE motion"],
+      "responsibilities": {"Mike": "Man on RB/TE", "Will": "Man on RB/TE"},
+      "defResponsibilities": {
+        "DE-L": "Contain, rush passer",
+        "DT-L": "Strong A gap",
+        "DT-R": "Weak A gap",
+        "DE-R": "Contain, rush passer",
+        "Mike": "Man on RB/TE",
+        "Will": "Man on RB/TE",
+        "Nickel": "Man on slot",
+        "CB-L": "Man on WR",
+        "CB-R": "Man on WR",
+        "FS": "Deep middle",
+        "SS": "Robber/underneath zone"
+      },
+      "diagram": "diagrams/425_cover1.svg"
+    },
+    {
+      "name": "4-2-5 Cover 2",
+      "offensiveFormation": "Trips Right (3 WR right, 1 WR left, 1 RB)",
+      "offensivePlay": "Flood, smash, or inside zone",
+      "defensiveFormation": "4-2-5 Base",
+      "coverage": "Cover 2 (Two-Deep Zone)",
+      "blitz": "None",
+      "note": "CBs jam and sink to flats. FS and SS play deep halves. Mike and Will cover hook/curl zones. Nickel covers slot.",
+      "keyReads": ["WR motion", "RB alignment", "TE release"],
+      "responsibilities": {"Mike": "Hook/curl zone", "Will": "Hook/curl zone"},
+      "defResponsibilities": {
+        "DE-L": "Contain, rush passer",
+        "DT-L": "Strong A gap",
+        "DT-R": "Weak A gap",
+        "DE-R": "Contain, rush passer",
+        "Mike": "Hook/curl zone",
+        "Will": "Hook/curl zone",
+        "Nickel": "Flat zone",
+        "CB-L": "Jam, sink to flat",
+        "CB-R": "Jam, sink to flat",
+        "FS": "Deep half",
+        "SS": "Deep half"
+      },
+      "diagram": "diagrams/425_cover2.svg"
+    },
+    {
+      "name": "4-2-5 Cover 4",
+      "offensiveFormation": "Ace (2 TE, 2 WR, 1 RB)",
+      "offensivePlay": "Play-action, power run, or seam pass",
+      "defensiveFormation": "4-2-5 Base",
+      "coverage": "Cover 4 (Quarters)",
+      "blitz": "None",
+      "note": "Safeties and corners play deep quarters. Mike and Will cover underneath zones. Nickel covers slot. DL responsible for gap integrity.",
+      "keyReads": ["Center snap", "TE motion", "RB release"],
+      "responsibilities": {"Mike": "Short middle zone", "Will": "Weak hook zone"},
+      "defResponsibilities": {
+        "DE-L": "Contain, rush passer",
+        "DT-L": "Strong A gap",
+        "DT-R": "Weak A gap",
+        "DE-R": "Contain, rush passer",
+        "Mike": "Short middle zone",
+        "Will": "Weak hook zone",
+        "Nickel": "Slot coverage, force outside",
+        "CB-L": "Deep left quarter",
+        "CB-R": "Deep right quarter",
+        "FS": "Deep left quarter",
+        "SS": "Deep right quarter"
+      },
+      "diagram": "diagrams/425_cover4.svg"
+    }
+  ]
+}

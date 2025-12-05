@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digital Playbook Coach</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="statusBanner" class="hidden" role="status" aria-live="polite"></div>
+    <div id="toasts" aria-live="polite" aria-atomic="true"></div>
+    <header>
+      <h1>🏈 Digital Playbook Coach</h1>
+      <nav>
+        <button data-section="dashboard">Dashboard</button>
+        <button data-section="playbook">Playbook</button>
+        <button data-section="flashcards">Flashcards</button>
+        <button data-section="quiz">Quiz</button>
+        <button data-section="scenario">Scenario Drill</button>
+        <button data-section="prompts">Prompts Log</button>
+        <button data-section="guide">Guide</button>
+      </nav>
+    </header>
+
+    <main>
+        <section id="dashboard" class="active">
+          <h2>Welcome, Player!</h2>
+          <p>Use the tabs to browse plays, study with flashcards, take quizzes, and run scenario drills.</p>
+          
+          <div class="dashboard-grid">
+            <div class="dashboard-card">
+              <div class="dashboard-icon">📚</div>
+              <h3>Playbook</h3>
+              <p>Explore defensive plays and formations</p>
+            </div>
+            <div class="dashboard-card">
+              <div class="dashboard-icon">🎯</div>
+              <h3>Flashcards</h3>
+              <p>Drill terminology and responsibilities</p>
+            </div>
+            <div class="dashboard-card">
+              <div class="dashboard-icon">❓</div>
+              <h3>Quiz</h3>
+              <p>Test your knowledge on coverages</p>
+            </div>
+            <div class="dashboard-card">
+              <div class="dashboard-icon">🎮</div>
+              <h3>Scenario Drill</h3>
+              <p>Practice game-like decisions</p>
+            </div>
+          </div>
+          
+          <svg class="logo-graphic" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+            <!-- Left eye -->
+            <path d="M 80 120 Q 100 90 130 120 Q 110 150 80 120" fill="none" stroke="#3d4a52" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+            
+            <!-- Right eye -->
+            <path d="M 270 120 Q 300 90 320 120 Q 300 150 270 120" fill="none" stroke="#3d4a52" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+            
+            <!-- Center football body -->
+            <rect x="130" y="80" width="140" height="80" fill="#ffffff" stroke="#3d4a52" stroke-width="10" rx="12"/>
+            
+            <!-- Football stitching - vertical center line -->
+            <line x1="200" y1="95" x2="200" y2="155" stroke="#3d4a52" stroke-width="4" stroke-linecap="round"/>
+            
+            <!-- Stitch crosses -->
+            <line x1="185" y1="110" x2="215" y2="110" stroke="#3d4a52" stroke-width="3" stroke-linecap="round"/>
+            <line x1="185" y1="128" x2="215" y2="128" stroke="#3d4a52" stroke-width="3" stroke-linecap="round"/>
+            <line x1="185" y1="146" x2="215" y2="146" stroke="#3d4a52" stroke-width="3" stroke-linecap="round"/>
+            
+            <!-- Text -->
+            <text x="200" y="230" font-size="52" font-weight="900" fill="#3d4a52" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" letter-spacing="2">DIGITAL</text>
+            <text x="200" y="300" font-size="52" font-weight="900" fill="#3d4a52" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" letter-spacing="2">PLAYBOOK</text>
+            <text x="200" y="370" font-size="52" font-weight="900" fill="#3d4a52" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" letter-spacing="2">COACH</text>
+          </svg>
+        </section>
+
+        <section id="playbook">
+          <h2>Playbook Explorer</h2>
+          <div class="controls">
+            <button id="savePlaysButton">Save Plays</button>
+            <button id="exportPlaysButton">Export Plays to File</button>
+            <button id="addPlayButton">Add Play</button>
+            <!-- Diagram upload: associate an image with a play -->
+            <select id="playSelectForDiagram" aria-label="Select play for diagram">
+              <option value="">-- Select play to tag diagram --</option>
+            </select>
+            <input id="diagramFile" type="file" accept="image/*" />
+            <button id="uploadDiagram">Upload Diagram</button>
+          </div>
+          
+          <!-- Add Play Form (hidden by default) -->
+          <div id="addPlayForm" class="playForm hidden">
+            <h3>Add New Play</h3>
+            <div class="form-group">
+              <label>Play Name:</label>
+              <input id="playName" type="text" placeholder="e.g., Cover 2 Blitz"/>
+            </div>
+            <div class="form-group">
+              <label>Offensive Formation:</label>
+              <input id="playOffensiveFormation" type="text" placeholder="e.g., 10 Personnel"/>
+            </div>
+            <div class="form-group">
+              <label>Offensive Play:</label>
+              <input id="playOffensivePlay" type="text" placeholder="e.g., 4-wide pass concept"/>
+            </div>
+            <div class="form-group">
+              <label>Defensive Formation:</label>
+              <input id="playDefensiveFormation" type="text" placeholder="e.g., Nickel 4-2-5"/>
+            </div>
+            <div class="form-group">
+              <label>Coverage:</label>
+              <input id="playCoverage" type="text" placeholder="e.g., Cover 2 Man"/>
+            </div>
+            <div class="form-group">
+              <label>Blitz:</label>
+              <input id="playBlitz" type="text" placeholder="e.g., Strong Safety Blitz"/>
+            </div>
+            <div class="form-group">
+              <label>Note:</label>
+              <textarea id="playNote" placeholder="Additional notes about the play..."></textarea>
+            </div>
+            <div class="form-group">
+              <label>Key Reads (comma-separated):</label>
+              <input id="playKeyReads" type="text" placeholder="e.g., QB drop, WR stems, RB release"/>
+            </div>
+            <div class="form-group">
+              <label>Mike Responsibility:</label>
+              <input id="playMikeResp" type="text" placeholder="e.g., Middle third coverage"/>
+            </div>
+            <div class="form-group">
+              <label>Will Responsibility:</label>
+              <input id="playWillResp" type="text" placeholder="e.g., Weak-side hook"/>
+            </div>
+            <div class="form-group">
+              <button id="submitPlayButton">Add Play</button>
+              <button id="cancelPlayButton">Cancel</button>
+            </div>
+          </div>
+          
+          <div id="playList"></div>
+          <h3 style="margin-top:1rem">Diagram Gallery</h3>
+          <div id="diagramGallery"></div>
+        </section>
+
+        <section id="flashcards">
+          <h2>Flashcards</h2>
+          <div id="flashcardArea">
+            <div id="card" class="playCard flashcard">
+              <div id="cardFront" class="card-face">Question</div>
+              <div id="cardBack" class="card-face hidden">Answer</div>
+            </div>
+            <div class="controls">
+              <button id="flipCard">Flip</button>
+              <button id="prevCard">Prev</button>
+              <button id="nextCard">Next</button>
+              <button id="genFlashcards">Generate Flashcards</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="quiz">
+          <h2>Quiz</h2>
+          <div id="quizContainer"></div>
+          <div class="controls">
+            <button id="startQuiz">Start Quiz</button>
+          </div>
+        </section>
+
+        <section id="scenario">
+          <h2>Scenario Drill</h2>
+          <div id="scenarioContainer"></div>
+          <div class="controls">
+            <button id="startScenario">New Scenario</button>
+            <button id="startScenarioAI">AI Scenario (LLM)</button>
+          </div>
+        </section>
+
+        <section id="prompts">
+          <h2>Prompt Log</h2>
+          <div class="controls">
+            <button id="downloadLog">Download Log</button>
+            <button id="clearLog">Clear Log</button>
+          </div>
+          <ul id="promptList"></ul>
+        </section>
+
+        <section id="guide">
+          <h2>How to use the AI Playbook Tutor</h2>
+          <ol>
+            <li>Import or paste your playbook (JSON recommended).</li>
+            <li>Use Flashcards to drill terminology and responsibilities.</li>
+            <li>Run Quiz and Scenario drills to practice decision-making.</li>
+            <li>Review the Prompt Log to see the prompts/responses used by the prototype.</li>
+          </ol>
+          <h3>Example prompts (prototype):</h3>
+          <ul>
+            <li>"Create a flashcard: What is the coverage for 'Base Cover 3'?"</li>
+            <li>"Generate a scenario: Offense shows trips right; what should Mike do?"</li>
+          </ul>
+        </section>
+      </main>
+  
+      <footer>
+        <p>© 2025 Digital Playbook Coach | Built by Connor Henderson</p>
+      </footer>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+      <script src="script.js"></script>
+      <div id="lightbox" class="hidden">
+        <div id="lightboxContent">
+          <button id="lightboxClose">Close</button>
+          <img id="lightboxImg" src="" alt="diagram" />
+        </div>
+      </div>
+    </body>
+  </html>
+

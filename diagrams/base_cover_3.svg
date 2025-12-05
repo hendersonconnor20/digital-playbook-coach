@@ -1,0 +1,132 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .field { fill: #2d5016; }
+      .player { fill: #fff; stroke: #000; stroke-width: 2; }
+      .player-o { fill: #ff6b6b; stroke: #000; stroke-width: 2; }
+      .label { font-size: 10px; font-weight: bold; fill: #000; text-anchor: middle; }
+      .label-white { font-size: 10px; font-weight: bold; fill: #fff; text-anchor: middle; }
+      .arrow { stroke: #4ecdc4; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .arrow-strong { stroke: #95e1d3; stroke-width: 2.5; fill: none; marker-end: url(#arrowhead); }
+      .title { font-size: 16px; font-weight: bold; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#4ecdc4" />
+    </marker>
+  </defs>
+  
+  <rect class="field" x="30" y="40" width="740" height="520"/>
+  
+  <!-- Yard lines -->
+  <line x1="30" y1="70" x2="770" y2="70" stroke="#ccc" stroke-width="1"/>
+  <line x1="30" y1="190" x2="770" y2="190" stroke="#fff" stroke-width="2"/>
+  <line x1="30" y1="310" x2="770" y2="310" stroke="#ccc" stroke-width="1" stroke-dasharray="5,5"/>
+  
+  <text x="400" y="25" class="title" text-anchor="middle" fill="#000">Base Cover 3 vs 10 Personnel (4-Wide Shotgun)</text>
+  
+  <!-- OFFENSE (Red circles, top) -->
+  <!-- Line of scrimmage -->
+  <circle class="player-o" cx="250" cy="110" r="11"/>
+  <text class="label" x="250" y="115">LT</text>
+  <circle class="player-o" cx="295" cy="110" r="11"/>
+  <text class="label" x="295" y="115">LG</text>
+  <circle class="player-o" cx="340" cy="110" r="11"/>
+  <text class="label" x="340" y="115">C</text>
+  <circle class="player-o" cx="385" cy="110" r="11"/>
+  <text class="label" x="385" y="115">RG</text>
+  <circle class="player-o" cx="430" cy="110" r="11"/>
+  <text class="label" x="430" y="115">RT</text>
+  
+  <!-- Shotgun backfield -->
+  <circle class="player-o" cx="340" cy="155" r="11"/>
+  <text class="label" x="340" y="160">QB</text>
+  <circle class="player-o" cx="290" cy="155" r="11"/>
+  <text class="label" x="290" y="160">RB</text>
+  
+  <!-- Receivers spread wide -->
+  <circle class="player-o" cx="130" cy="95" r="11"/>
+  <text class="label" x="130" y="100">WR1</text>
+  <circle class="player-o" cx="530" cy="95" r="11"/>
+  <text class="label" x="530" y="100">WR2</text>
+  <circle class="player-o" cx="100" cy="155" r="11"/>
+  <text class="label" x="100" y="160">WR3</text>
+  <circle class="player-o" cx="580" cy="155" r="11"/>
+  <text class="label" x="580" y="160">WR4</text>
+  
+  <!-- DEFENSE (White circles, bottom) -->
+  <!-- Defensive line -->
+  <circle class="player" cx="270" cy="355" r="11"/>
+  <text class="label-white" x="270" y="360">LDE</text>
+  <circle class="player" cx="310" cy="355" r="11"/>
+  <text class="label-white" x="310" y="360">DT</text>
+  <circle class="player" cx="370" cy="355" r="11"/>
+  <text class="label-white" x="370" y="360">DT</text>
+  <circle class="player" cx="410" cy="355" r="11"/>
+  <text class="label-white" x="410" y="360">RDE</text>
+  
+  <!-- Linebackers -->
+  <circle class="player" cx="290" cy="420" r="11"/>
+  <text class="label-white" x="290" y="425">Sam</text>
+  <circle class="player" cx="340" cy="420" r="11"/>
+  <text class="label-white" x="340" y="425">Mike</text>
+  <circle class="player" cx="390" cy="420" r="11"/>
+  <text class="label-white" x="390" y="425">Will</text>
+  
+  <!-- Safeties and Corners -->
+  <circle class="player" cx="150" cy="480" r="11"/>
+  <text class="label-white" x="150" y="485">CB-L</text>
+  <circle class="player" cx="630" cy="480" r="11"/>
+  <text class="label-white" x="630" y="485">CB-R</text>
+  <circle class="player" cx="340" cy="510" r="11"/>
+  <text class="label-white" x="340" y="515">FS</text>
+  <circle class="player" cx="240" cy="510" r="11"/>
+  <text class="label-white" x="240" y="515">SS</text>
+  
+  <!-- DEFENSIVE RESPONSIBILITY ARROWS -->
+  <!-- LDE to edge -->
+  <path class="arrow" d="M 270 355 Q 220 300 200 220"/>
+  <text x="210" y="280" font-size="8" fill="#4ecdc4">Edge</text>
+  
+  <!-- Left DT two-gap -->
+  <path class="arrow" d="M 310 355 L 310 240"/>
+  <text x="320" y="300" font-size="8" fill="#4ecdc4">2-Gap</text>
+  
+  <!-- Right DT two-gap -->
+  <path class="arrow" d="M 370 355 L 370 240"/>
+  <text x="380" y="300" font-size="8" fill="#4ecdc4">2-Gap</text>
+  
+  <!-- RDE to edge -->
+  <path class="arrow" d="M 410 355 Q 460 300 480 220"/>
+  <text x="460" y="280" font-size="8" fill="#4ecdc4">Edge</text>
+  
+  <!-- Sam scrapes/flats -->
+  <path class="arrow" d="M 290 420 L 220 355"/>
+  <text x="240" y="390" font-size="8" fill="#4ecdc4">Flats</text>
+  
+  <!-- Mike to middle 1/3 -->
+  <path class="arrow-strong" d="M 340 420 L 340 250"/>
+  <text x="355" y="340" font-size="8" fill="#95e1d3">Deep Mid</text>
+  
+  <!-- Will to hook -->
+  <path class="arrow" d="M 390 420 L 450 355"/>
+  <text x="440" y="390" font-size="8" fill="#4ecdc4">Hook</text>
+  
+  <!-- CB-L to outside 1/3 -->
+  <path class="arrow" d="M 150 480 L 90 250"/>
+  <text x="100" y="370" font-size="8" fill="#4ecdc4">Out 1/3</text>
+  
+  <!-- CB-R to outside 1/3 -->
+  <path class="arrow" d="M 630 480 L 690 250"/>
+  <text x="680" y="370" font-size="8" fill="#4ecdc4">Out 1/3</text>
+  
+  <!-- FS deep middle -->
+  <path class="arrow-strong" d="M 340 510 L 340 270"/>
+  <text x="360" y="390" font-size="8" fill="#95e1d3">Deep</text>
+  
+  <!-- SS help -->
+  <path class="arrow" d="M 240 510 L 290 380"/>
+  <text x="250" y="450" font-size="8" fill="#4ecdc4">Help</text>
+  
+  <!-- Legend -->
+  <text x="40" y="560" font-size="9" fill="#000">Coverage: 3 deep safeties, 4 underneath | Mike reads QB drop and stems | DTs control gaps</text>
+</svg>

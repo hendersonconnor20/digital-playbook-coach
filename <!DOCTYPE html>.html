@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Playbook Coach</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🏈 Digital Playbook Coach</h1>
+    <nav>
+      <button onclick="showSection('dashboard')">Dashboard</button>
+      <button onclick="showSection('playbook')">Playbook</button>
+      <button onclick="showSection('quiz')">Quiz</button>
+      <button onclick="showSection('feedback')">Feedback</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="dashboard" class="active">
+      <h2>Welcome, Player!</h2>
+      <p>Review plays, test your defensive knowledge, and receive personalized feedback powered by AI.</p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/American_football_formation.svg/512px-American_football_formation.svg.png" alt="Defensive Formation">
+    </section>
+
+    <section id="playbook">
+      <h2>Playbook Explorer</h2>
+      <div id="playList"></div>
+    </section>
+
+    <section id="quiz">
+      <h2>Game Situation Quiz</h2>
+      <div id="quizContainer"></div>
+    </section>
+
+    <section id="feedback">
+      <h2>AI Feedback Summary</h2>
+      <p id="feedbackText">Your performance insights will appear here after completing quizzes.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Digital Playbook Coach | Built by Connor Henderson</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
