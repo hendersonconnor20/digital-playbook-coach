@@ -1,4 +1,16 @@
-node_modules/
+# macOS
 .DS_Store
+
+# Node modules (if added later)
+node_modules/
+
+# Logs
 *.log
-.env
+
+# Editor files
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.swp
