@@ -185,7 +185,8 @@ function startQuiz() {
       const qDiv = document.createElement("div");
       qDiv.className = "playCard";
       const title = document.createElement("h3");
-      title.textContent = `Q${idx + 1} [${q.play}]: ${q.question}`;
+      const formationLabel = q.offensiveFormation ? ` vs ${q.offensiveFormation}` : '';
+      title.textContent = `Q${idx + 1} [${q.play}${formationLabel}]: ${q.question}`;
       qDiv.appendChild(title);
       
       if (q.type === "mcq") {

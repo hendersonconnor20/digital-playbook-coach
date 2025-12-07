@@ -45,64 +45,74 @@
   "quizQuestions": [
     {
       "play": "Cover 1 Badger",
+      "offensiveFormation": "2x2 Spread",
       "type": "mcq",
-      "question": "In Cover 1 Badger, one LB will always:",
+      "question": "In Cover 1 Badger vs 2x2 Spread, one LB will always:",
       "options": ["Drop to curl", "Blitz B-Gap", "Cover deep half", "Rotate with FS"],
       "answer": "Blitz B-Gap"
     },
     {
       "play": "4-2-5 Cover 1",
+      "offensiveFormation": "2x2 Spread",
       "type": "fillin",
-      "question": "In 4-2-5 Cover 1, the key offensive concepts the defense expects out of 2x2 Spread are ________, ________, and ________.",
+      "question": "In 4-2-5 Cover 1 vs 2x2 Spread, the key offensive concepts the defense expects out of the 2x2 Spread formation are ________, ________, and ________.",
       "answer": "Four Verticals, Mesh, Zone Read"
     },
     {
       "play": "4-2-5 Cover 4",
+      "offensiveFormation": "2x2 Spread",
       "type": "fillin",
-      "question": "In 4-2-5 Cover 4, which defenders play deep quarters? ________ + ________",
+      "question": "In 4-2-5 Cover 4 vs 2x2 Spread, which defenders play deep quarters? ________ + ________",
       "answer": "Both safeties + Both corners"
     },
     {
       "play": "4-2-5 Cover 4",
+      "offensiveFormation": "2x2 Spread",
       "type": "tf",
-      "question": "In 4-2-5 Cover 4, Will is responsible for weak curl/flat.",
+      "question": "In 4-2-5 Cover 4 vs 2x2 Spread, Will is responsible for weak curl/flat.",
       "answer": true
     },
     {
       "play": "Waylon 3 Fire",
+      "offensiveFormation": "2x2 Spread",
       "type": "tf",
-      "question": "In Waylon 3 Fire, Nickel drops to weak flat.",
+      "question": "In Waylon 3 Fire vs 2x2 Spread, Nickel drops to weak flat.",
       "answer": false
     },
     {
       "play": "4-2-5 Cover 1",
+      "offensiveFormation": "2x2 Spread",
       "type": "tf",
-      "question": "In 4-2-5 Cover 1, the DL are responsible for gap integrity.",
+      "question": "In 4-2-5 Cover 1 vs 2x2 Spread, the DL are responsible for gap integrity.",
       "answer": true
     },
     {
       "play": "4-2-5 Cover 1",
+      "offensiveFormation": "2x2 Spread",
       "type": "mcq",
-      "question": "In 4-2-5 Cover 1, Mike's responsibility is:",
+      "question": "In 4-2-5 Cover 1 vs 2x2 Spread, Mike's responsibility is:",
       "options": ["Middle Hook", "Blitz B-Gap", "Man on RB/TE", "Deep Half"],
       "answer": "Man on RB/TE"
     },
     {
       "play": "Waylon 3 Fire",
+      "offensiveFormation": "2x2 Spread",
       "type": "fillin",
-      "question": "In Waylon 3 Fire, who replaces the blitzing Will in coverage? ________",
+      "question": "In Waylon 3 Fire vs 2x2 Spread, who replaces the blitzing Will in coverage? ________",
       "answer": "Free Safety"
     },
     {
       "play": "4-2-5 Cover 4",
+      "offensiveFormation": "2x2 Spread",
       "type": "fillin",
-      "question": "In 4-2-5 Cover 4, this coverage is also known as ________.",
+      "question": "In 4-2-5 Cover 4 vs 2x2 Spread, this coverage is also known as ________.",
       "answer": "Quarters"
     },
     {
       "play": "Waylon 3 Fire",
+      "offensiveFormation": "2x2 Spread",
       "type": "fillin",
-      "question": "In Waylon 3 Fire, which defenders play deep thirds? ________, ________, ________",
+      "question": "In Waylon 3 Fire vs 2x2 Spread, which defenders play deep thirds? ________, ________, ________",
       "answer": "Both corners + Strong Safety"
     }
   ],
