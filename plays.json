@@ -8,22 +8,20 @@
       "coverage": "Cover 1 (Man-Free)",
       "blitz": "None",
       "note": "CBs and Nickel play man coverage. FS deep middle. Mike and Will cover RB/TE. DL responsible for gap integrity.",
-      "keyReads": ["QB drop", "RB release", "TE motion"],
-      "responsibilities": {"Mike": "Man on RB/TE", "Will": "Man on RB/TE"},
-      "defResponsibilities": {
-        "DE-L": "Contain, rush passer",
-        "DT-L": "Strong A gap",
-        "DT-R": "Weak A gap",
-        "DE-R": "Contain, rush passer",
+      "keyReads": ["RB motion", "QB eyes", "TE motion"],
+      "responsibilities": {
         "Mike": "Man on RB/TE",
-        "Will": "Man on RB/TE",
+        "Will": "Man on RB/TE"
+      },
+      "defResponsibilities": {
+        "DE": "Contain rush",
+        "DT": "Gap control",
+        "CB": "Man on WR",
         "Nickel": "Man on slot",
-        "CB-L": "Man on WR",
-        "CB-R": "Man on WR",
-        "FS": "Deep middle",
+        "FS": "Deep middle zone",
         "SS": "Robber/underneath zone"
       },
-      "diagram": "diagrams/425_cover1.svg"
+      "diagram": null
     },
     {
       "name": "4-2-5 Cover 2",
@@ -33,22 +31,20 @@
       "coverage": "Cover 2 (Two-Deep Zone)",
       "blitz": "None",
       "note": "CBs jam and sink to flats. FS and SS play deep halves. Mike and Will cover hook/curl zones. Nickel covers slot.",
-      "keyReads": ["WR motion", "RB alignment", "TE release"],
-      "responsibilities": {"Mike": "Hook/curl zone", "Will": "Hook/curl zone"},
-      "defResponsibilities": {
-        "DE-L": "Contain, rush passer",
-        "DT-L": "Strong A gap",
-        "DT-R": "Weak A gap",
-        "DE-R": "Contain, rush passer",
+      "keyReads": ["Trips formation", "RB release", "TE release"],
+      "responsibilities": {
         "Mike": "Hook/curl zone",
-        "Will": "Hook/curl zone",
-        "Nickel": "Flat zone",
-        "CB-L": "Jam, sink to flat",
-        "CB-R": "Jam, sink to flat",
+        "Will": "Hook/curl zone"
+      },
+      "defResponsibilities": {
+        "DE": "Contain rush",
+        "DT": "Gap control",
+        "CB": "Flat zone",
+        "Nickel": "Hook zone",
         "FS": "Deep half",
         "SS": "Deep half"
       },
-      "diagram": "diagrams/425_cover2.svg"
+      "diagram": null
     },
     {
       "name": "4-2-5 Cover 4",
@@ -58,22 +54,68 @@
       "coverage": "Cover 4 (Quarters)",
       "blitz": "None",
       "note": "Safeties and corners play deep quarters. Mike and Will cover underneath zones. Nickel covers slot. DL responsible for gap integrity.",
-      "keyReads": ["Center snap", "TE motion", "RB release"],
-      "responsibilities": {"Mike": "Short middle zone", "Will": "Weak hook zone"},
+      "keyReads": ["TE alignment", "#2 release", "RB release"],
+      "responsibilities": {
+        "Mike": "Strong hook zone",
+        "Will": "Weak hook zone"
+      },
       "defResponsibilities": {
-        "DE-L": "Contain, rush passer",
-        "DT-L": "Strong A gap",
-        "DT-R": "Weak A gap",
-        "DE-R": "Contain, rush passer",
-        "Mike": "Short middle zone",
-        "Will": "Weak hook zone",
-        "Nickel": "Slot coverage, force outside",
-        "CB-L": "Deep left quarter",
-        "CB-R": "Deep right quarter",
+        "DE": "Contain rush",
+        "DT": "Gap control",
+        "CB": "Deep outside quarter",
+        "Nickel": "Hook zone",
         "FS": "Deep left quarter",
         "SS": "Deep right quarter"
       },
-      "diagram": "diagrams/425_cover4.svg"
+      "diagram": null
+    },
+    {
+      "name": "Cover 1 Badger",
+      "offensiveFormation": "2x2 Spread",
+      "offensivePlay": "Smash, Stick, 4 Verticals, Bubble/Tunnel Screens, and Mesh",
+      "defensiveFormation": "Nickel 4-2-5",
+      "coverage": "Cover 1 Man",
+      "blitz": "LB blitz B-Gap, whoever is aligned to the side of the RB.",
+      "note": "Free Safety plays the post. All other underneath defenders are in man coverage. The blitzing LB goes through the B-Gap, the non-blitzing LB plays spy technique on the QB.",
+      "keyReads": ["Man in coverage", "Eyes to man in coverage"],
+      "responsibilities": {
+        "Mike": "Blitz or spy",
+        "Will": "Blitz or spy"
+      },
+      "defResponsibilities": {},
+      "diagram": ""
+    },
+    {
+      "name": "Nipsey 2 Trap",
+      "offensiveFormation": "2x2 spread",
+      "offensivePlay": "Smash, Stick, 4 Verticals, Bubble/Tunnel Screens, and Mesh",
+      "defensiveFormation": "Nickel 4-2-5 Double Mug",
+      "coverage": "Cover 2 Trap",
+      "blitz": "Nickel edge blitz",
+      "note": "Strong Safety and Boundary Corner play deep halves in zone coverage. Field Corner plays zone trap technique (pretends to play deep zone (like Cover 3 or Quarters) but actually traps short, in-breaking routes, forcing them to the outside where safeties help). Mike and Will show mugged up in both A-Gaps and then drop to their curl zone when ball is snapped.",
+      "keyReads": ["Number 2 receivers", "zone eyes in coverage"],
+      "responsibilities": {
+        "Mike": "Strong Curl",
+        "Will": "Weak Curl"
+      },
+      "defResponsibilities": {},
+      "diagram": ""
+    },
+    {
+      "name": "Waylon 3 Fire",
+      "offensiveFormation": "2x2 Spread",
+      "offensivePlay": "Smash, Stick, 4 Verticals, Bubble/Tunnel Screens, and Mesh",
+      "defensiveFormation": "Nickel 4-2-5",
+      "coverage": "Cover 3 Fire",
+      "blitz": "Will Linebacker B-Gap Blitz",
+      "note": "Will linebacker blitzes the B-Gap to the weak side. Both corners and strong safety drop the deep thirds in coverage. Free Safety rolls down to replace the blitzer in coverage, responsible for the weak flat zone. Mike drops to the middle hook, relating to the #3 WR. Nickel drops to the field flat, relating to the final #2 WR.",
+      "keyReads": ["Man eyes on blitzing linebacker", "zone eyes for all other off the ball defenders"],
+      "responsibilities": {
+        "Mike": "Middle Hook",
+        "Will": "Blitz B-Gap"
+      },
+      "defResponsibilities": {},
+      "diagram": ""
     }
   ]
 }
