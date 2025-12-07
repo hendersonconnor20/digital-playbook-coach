@@ -185,7 +185,7 @@ function startQuiz() {
       const qDiv = document.createElement("div");
       qDiv.className = "playCard";
       const title = document.createElement("h3");
-      title.textContent = `Q${idx + 1}: ${q.question}`;
+      title.textContent = `Q${idx + 1} [${q.play}]: ${q.question}`;
       qDiv.appendChild(title);
       
       if (q.type === "mcq") {
@@ -376,15 +376,19 @@ function startScenario() {
     pointsDiv.style.padding = "12px";
     pointsDiv.style.marginTop = "12px";
     pointsDiv.style.borderRadius = "4px";
+    pointsDiv.style.color = "#2c3e50";
     
     const pointsTitle = document.createElement("h4");
     pointsTitle.textContent = "Correct Coaching Points:";
+    pointsTitle.style.color = "#2c3e50";
     pointsDiv.appendChild(pointsTitle);
     
     const pointsList = document.createElement("ul");
+    pointsList.style.color = "#2c3e50";
     scenario.coachingPoints.forEach((point) => {
       const li = document.createElement("li");
       li.textContent = point;
+      li.style.color = "#2c3e50";
       pointsList.appendChild(li);
     });
     pointsDiv.appendChild(pointsList);
