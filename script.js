@@ -19,9 +19,13 @@ function initNav() {
   });
   
   // Make dashboard cards clickable
-  document.querySelectorAll(".dashboard-card").forEach((card) => {
+  const dashboardCards = document.querySelectorAll(".dashboard-card");
+  console.log('Found dashboard cards:', dashboardCards.length);
+  dashboardCards.forEach((card) => {
+    console.log('Adding click to card:', card.dataset.section);
     card.addEventListener("click", () => {
       const section = card.dataset.section;
+      console.log('Dashboard card clicked, navigating to:', section);
       if (section) {
         showSection(section);
       }
