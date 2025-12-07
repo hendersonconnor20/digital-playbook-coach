@@ -376,19 +376,23 @@ function startScenario() {
     pointsDiv.style.padding = "12px";
     pointsDiv.style.marginTop = "12px";
     pointsDiv.style.borderRadius = "4px";
-    pointsDiv.style.color = "#2c3e50";
+    pointsDiv.style.color = "#1a252f";
     
     const pointsTitle = document.createElement("h4");
     pointsTitle.textContent = "Correct Coaching Points:";
-    pointsTitle.style.color = "#2c3e50";
+    pointsTitle.style.color = "#1a252f";
+    pointsTitle.style.fontWeight = "bold";
+    pointsTitle.style.marginBottom = "8px";
     pointsDiv.appendChild(pointsTitle);
     
     const pointsList = document.createElement("ul");
-    pointsList.style.color = "#2c3e50";
+    pointsList.style.color = "#1a252f";
+    pointsList.style.fontWeight = "500";
     scenario.coachingPoints.forEach((point) => {
       const li = document.createElement("li");
       li.textContent = point;
-      li.style.color = "#2c3e50";
+      li.style.color = "#1a252f";
+      li.style.marginBottom = "4px";
       pointsList.appendChild(li);
     });
     pointsDiv.appendChild(pointsList);

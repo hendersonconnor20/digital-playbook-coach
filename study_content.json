@@ -44,69 +44,6 @@
   },
   "quizQuestions": [
     {
-      "play": "4-2-5 Cover 1",
-      "type": "mcq",
-      "question": "In Cover 1, who plays deep middle?",
-      "options": ["Nickel", "Free Safety", "Mike", "Will"],
-      "answer": "Free Safety"
-    },
-    {
-      "play": "4-2-5 Cover 1",
-      "type": "mcq",
-      "question": "Mike's responsibility is:",
-      "options": ["Middle Hook", "Blitz B-Gap", "Man on RB/TE", "Deep Half"],
-      "answer": "Man on RB/TE"
-    },
-    {
-      "play": "4-2-5 Cover 1",
-      "type": "tf",
-      "question": "DL are responsible for gap integrity.",
-      "answer": true
-    },
-    {
-      "play": "4-2-5 Cover 1",
-      "type": "fillin",
-      "question": "The key offensive concepts to expect are ________, ________, and ________.",
-      "answer": "Four Verticals, Mesh, Zone Read"
-    },
-    {
-      "play": "4-2-5 Cover 2",
-      "type": "mcq",
-      "question": "Who plays deep halves in Cover 2?",
-      "options": ["Corners", "Mike and Will", "FS and SS", "Nickel"],
-      "answer": "FS and SS"
-    },
-    {
-      "play": "4-2-5 Cover 2",
-      "type": "fillin",
-      "question": "Mike drops to the ________ relating to #3 WR.",
-      "answer": "Middle Hook"
-    },
-    {
-      "play": "4-2-5 Cover 2",
-      "type": "tf",
-      "question": "Corners play soft bail technique in Cover 2.",
-      "answer": false
-    },
-    {
-      "play": "4-2-5 Cover 4",
-      "type": "fillin",
-      "question": "Which defenders play deep quarters? ________ + ________",
-      "answer": "Both safeties + Both corners"
-    },
-    {
-      "play": "4-2-5 Cover 4",
-      "type": "tf",
-      "question": "Will is responsible for weak curl/flat.",
-      "answer": true
-    },
-    {
-      "play": "4-2-5 Cover 4",
-      "type": "fillin",
-      "question": "Cover 4 is also known as ________.",
-      "answer": "Quarters"
-    },
-    {
       "play": "Cover 1 Badger",
       "type": "mcq",
       "question": "In Cover 1 Badger, one LB will always:",
@@ -114,53 +51,59 @@
       "answer": "Blitz B-Gap"
     },
     {
-      "play": "Cover 1 Badger",
+      "play": "4-2-5 Cover 1",
       "type": "fillin",
-      "question": "The non-blitzing LB plays ________.",
-      "answer": "Spy"
+      "question": "In 4-2-5 Cover 1, the key offensive concepts the defense expects out of 2x2 Spread are ________, ________, and ________.",
+      "answer": "Four Verticals, Mesh, Zone Read"
     },
     {
-      "play": "Cover 1 Badger",
+      "play": "4-2-5 Cover 4",
+      "type": "fillin",
+      "question": "In 4-2-5 Cover 4, which defenders play deep quarters? ________ + ________",
+      "answer": "Both safeties + Both corners"
+    },
+    {
+      "play": "4-2-5 Cover 4",
       "type": "tf",
-      "question": "Underneath defenders are in zone coverage.",
+      "question": "In 4-2-5 Cover 4, Will is responsible for weak curl/flat.",
+      "answer": true
+    },
+    {
+      "play": "Waylon 3 Fire",
+      "type": "tf",
+      "question": "In Waylon 3 Fire, Nickel drops to weak flat.",
       "answer": false
     },
     {
-      "play": "Nipsey 2 Trap",
-      "type": "fillin",
-      "question": "Who plays the deep halves? ________ and ________",
-      "answer": "Strong Safety and Boundary Corner"
+      "play": "4-2-5 Cover 1",
+      "type": "tf",
+      "question": "In 4-2-5 Cover 1, the DL are responsible for gap integrity.",
+      "answer": true
     },
     {
-      "play": "Nipsey 2 Trap",
+      "play": "4-2-5 Cover 1",
       "type": "mcq",
-      "question": "The Field Corner plays:",
-      "options": ["Man", "Quarters", "Trap technique", "Deep middle"],
-      "answer": "Trap technique"
-    },
-    {
-      "play": "Nipsey 2 Trap",
-      "type": "tf",
-      "question": "Mike and Will blitz from the double mug.",
-      "answer": false
+      "question": "In 4-2-5 Cover 1, Mike's responsibility is:",
+      "options": ["Middle Hook", "Blitz B-Gap", "Man on RB/TE", "Deep Half"],
+      "answer": "Man on RB/TE"
     },
     {
       "play": "Waylon 3 Fire",
       "type": "fillin",
-      "question": "Who replaces the blitzing Will in coverage? ________",
+      "question": "In Waylon 3 Fire, who replaces the blitzing Will in coverage? ________",
       "answer": "Free Safety"
     },
     {
-      "play": "Waylon 3 Fire",
+      "play": "4-2-5 Cover 4",
       "type": "fillin",
-      "question": "Which defenders play deep thirds? ________, ________, ________",
-      "answer": "Both corners + Strong Safety"
+      "question": "In 4-2-5 Cover 4, this coverage is also known as ________.",
+      "answer": "Quarters"
     },
     {
       "play": "Waylon 3 Fire",
-      "type": "tf",
-      "question": "Nickel drops to weak flat.",
-      "answer": false
+      "type": "fillin",
+      "question": "In Waylon 3 Fire, which defenders play deep thirds? ________, ________, ________",
+      "answer": "Both corners + Strong Safety"
     }
   ],
   "scenarios": {
