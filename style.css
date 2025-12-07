@@ -1,9 +1,30 @@
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #0e1626;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
+    linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  background-attachment: fixed;
   color: #f3f3f3;
   margin: 0;
   padding: 0;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, transparent 1px, transparent 2px, rgba(255,255,255,0.03) 3px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0px, transparent 1px, transparent 2px, rgba(255,255,255,0.03) 3px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.3;
 }
 
 /* Status banner */
