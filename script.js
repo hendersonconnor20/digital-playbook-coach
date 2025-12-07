@@ -490,6 +490,38 @@ async function callAI(prompt) {
   }
 }
 
+// Scenario types for varied AI-generated scenarios
+const scenarioTypes = [
+  {
+    roleLabel: "Mike linebacker",
+    questionStem: "As the Mike linebacker, what should you do?"
+  },
+  {
+    roleLabel: "Will linebacker",
+    questionStem: "As the Will linebacker, what is your assignment?"
+  },
+  {
+    roleLabel: "Nickel/Star",
+    questionStem: "As the Nickel/Star defender, how should you respond?"
+  },
+  {
+    roleLabel: "Free Safety",
+    questionStem: "As the Free Safety, what is your responsibility?"
+  },
+  {
+    roleLabel: "Cornerback",
+    questionStem: "As the Cornerback, how should you adjust?"
+  },
+  {
+    roleLabel: null,
+    questionStem: "Based on the coverage rules, what defensive adjustment is correct?"
+  }
+];
+
+function pickScenarioType() {
+  return scenarioTypes[Math.floor(Math.random() * scenarioTypes.length)];
+}
+
 async function startScenarioAI() {
   const container = document.getElementById("scenarioContainer");
   container.innerHTML = "";
@@ -500,6 +532,12 @@ async function startScenarioAI() {
     return;
   }
   const p = plays[Math.floor(Math.random() * plays.length)];
+  const scenarioType = pickScenarioType();
+  
+  // Build position-specific context if a role is specified
+  const positionContext = scenarioType.roleLabel 
+    ? `\n\nSCENARIO FOCUS: Frame this scenario from the perspective of the ${scenarioType.roleLabel}. The question should ask: "${scenarioType.questionStem}"`
+    : `\n\nSCENARIO FOCUS: Frame this scenario around overall defensive concepts and coverage rules, not from a single position's perspective. The question should ask: "${scenarioType.questionStem}"`;
   
   const prompt = `Generate a defensive recognition scenario based on the selected play.
 
@@ -513,28 +551,31 @@ Play Information:
 - Note: ${p.note}
 - Key Reads: ${p.keyReads ? p.keyReads.join(', ') : 'N/A'}
 - Mike Responsibility: ${p.responsibilities ? p.responsibilities.Mike : 'N/A'}
-- Will Responsibility: ${p.responsibilities ? p.responsibilities.Will : 'N/A'}
+- Will Responsibility: ${p.responsibilities ? p.responsibilities.Will : 'N/A'}${positionContext}
 
-IMPORTANT: The first sentence of your scenario MUST explicitly state "You're playing ${p.name} ..." and the entire scenario logic must be consistent with that specific defensive call (${p.coverage}, ${p.blitz}).
+CRITICAL REQUIREMENTS:
+1. The first sentence MUST explicitly state "You're playing ${p.name} ..." 
+2. The entire scenario logic must be consistent with that specific defensive call (${p.coverage}, ${p.blitz})
+3. Use the question stem provided above to frame the decision from the correct perspective
 
 The scenario should include:
-- Pre-snap motion
+- Pre-snap motion or offensive alignment
 - A primary offensive route concept from: ${p.offensivePlay}
 - A post-snap conflict for the defender
-- A question requiring the user to identify their assignment or adjustment
+- A clear question using the provided question stem
 
 Provide:
-1) A short game-like scenario (2-3 sentences) describing the offensive alignment and motion, starting with "You're playing ${p.name} ..."
-2) 3 multiple-choice options (A/B/C) for the correct defensive adjustment
-3) The correct option and a brief coaching explanation
+1) A short game-like scenario (2-3 sentences) describing the setup, starting with "You're playing ${p.name} ..."
+2) The question using the exact question stem provided
+3) 3 multiple-choice options (A/B/C) for the correct defensive adjustment
+4) The correct option and a brief coaching explanation
 
 Format your response as JSON with this structure:
 {
-  "scenario": "...",
+  "questionText": "You're playing ${p.name} ... [scenario setup] ... ${scenarioType.questionStem}",
   "options": ["A", "B", "C"],
-  "correctIndex": 0,
-  "explanation": "...",
-  "coachingCue": "..."
+  "correctOption": "A",
+  "explanation": "..."
 }`;
 
   const data = await callAI(prompt);
@@ -557,8 +598,13 @@ Format your response as JSON with this structure:
   
   if (structured) {
     const s = structured;
+    
+    // Support both old format (scenario/correctIndex) and new format (questionText/correctOption)
+    const questionText = s.questionText || s.scenario || "Scenario question";
+    const correctIndex = s.correctIndex !== undefined ? s.correctIndex : (s.options || []).findIndex(opt => opt === s.correctOption);
+    
     const title = document.createElement("h3");
-    title.textContent = s.scenario;
+    title.textContent = questionText;
     card.appendChild(title);
     const optsWrap = document.createElement("div");
     optsWrap.className = "controls";
@@ -568,25 +614,27 @@ Format your response as JSON with this structure:
       btn.addEventListener("click", () => {
         if (btn.classList.contains("answered")) return;
         btn.classList.add("answered");
-        if (idx === s.correctIndex) {
+        if (idx === correctIndex) {
           btn.style.background = "#2ecc71";
         } else {
           btn.style.background = "#e74c3c";
         }
         Array.from(optsWrap.querySelectorAll("button")).forEach((b, i) => {
-          if (i === s.correctIndex) b.style.border = "2px solid #2ecc71";
+          if (i === correctIndex) b.style.border = "2px solid #2ecc71";
           b.disabled = true;
         });
         const expl = document.createElement("p");
-        expl.textContent = `Answer: ${String.fromCharCode(65 + s.correctIndex)} — ${s.options[s.correctIndex]}`;
+        expl.textContent = `Answer: ${String.fromCharCode(65 + correctIndex)} — ${s.options[correctIndex]}`;
         const expl2 = document.createElement('p');
-        expl2.textContent = s.explanation;
-        const cue = document.createElement('p');
-        cue.style.fontStyle = 'italic';
-        cue.textContent = `Coaching cue: ${s.coachingCue}`;
+        expl2.textContent = s.explanation || "See coaching cue for details.";
+        if (s.coachingCue) {
+          const cue = document.createElement('p');
+          cue.style.fontStyle = 'italic';
+          cue.textContent = `Coaching cue: ${s.coachingCue}`;
+          card.appendChild(cue);
+        }
         card.appendChild(expl);
         card.appendChild(expl2);
-        card.appendChild(cue);
         recordPromptLog(prompt, JSON.stringify(s));
       });
       optsWrap.appendChild(btn);
@@ -622,38 +670,51 @@ function updatePromptList() {
 
 /* -- Local scenario generator (fallback when AI backend is unavailable) -- */
 function generateLocalScenario(p) {
-  // Choose a short scenario and a question about Mike's responsibility
+  // Pick a random scenario type for variety
+  const scenarioType = pickScenarioType();
   const formation = p.offensiveFormation || 'an unknown formation';
   const playDesc = p.offensivePlay || 'a generic play';
-  const coverage = p.coverage || p.name || 'this defense';
-  const scenario = `You're playing ${coverage}. Offense shows ${formation} and runs ${playDesc}. As the Mike, what is your primary post-snap responsibility?`;
+  const playName = p.name || 'this defense';
+  
+  let correct, fallbackOpts;
+  
+  if (scenarioType.roleLabel === "Mike linebacker") {
+    correct = (p.responsibilities && p.responsibilities.Mike) || 'Hook/curl zone';
+    fallbackOpts = ['Hook/curl zone', 'Deep middle coverage', 'Man on RB/TE', 'Flat zone', 'Edge contain'];
+  } else if (scenarioType.roleLabel === "Will linebacker") {
+    correct = (p.responsibilities && p.responsibilities.Will) || 'Weak curl/flat';
+    fallbackOpts = ['Weak curl/flat', 'QB spy', 'Man on TE', 'Strong hook', 'Edge blitz'];
+  } else if (scenarioType.roleLabel === "Nickel/Star") {
+    correct = 'Slot leverage / match #2';
+    fallbackOpts = ['Slot leverage / match #2', 'Deep quarter', 'Flat zone', 'Hook zone', 'Edge blitz'];
+  } else if (scenarioType.roleLabel === "Free Safety") {
+    correct = 'Deep middle third';
+    fallbackOpts = ['Deep middle third', 'Deep half', 'Deep quarter', 'Hook zone', 'Weak flat'];
+  } else if (scenarioType.roleLabel === "Cornerback") {
+    correct = p.coverage && p.coverage.includes('Man') ? 'Man coverage on #1' : 'Outside quarter / flat';
+    fallbackOpts = ['Man coverage on #1', 'Outside quarter', 'Cloud (flat)', 'Deep third', 'Press bail'];
+  } else {
+    // Concept type - ask about overall coverage adjustment
+    correct = p.coverage || 'Zone match principles';
+    fallbackOpts = ['Zone match principles', 'Man coverage rules', 'Pattern match', 'Tampa 2 adjustment', 'Quarters coverage'];
+  }
+  
+  const scenario = `You're playing ${playName}. Offense shows ${formation} and runs ${playDesc}. ${scenarioType.questionStem}`;
 
-  const correct = (p.responsibilities && p.responsibilities.Mike) || (p.defResponsibilities && p.defResponsibilities.Mike) || p.coverage || 'Short middle zone';
-
-  const fallbackOpts = [
-    'Hook/curl zone',
-    'Deep middle coverage',
-    'Man on RB/TE',
-    'Flat zone (force outside)',
-    'Edge contain / rush',
-    'Short middle zone'
-  ];
   const options = new Set([correct]);
-  // add two distractors
   let i = 0;
   while (options.size < 3 && i < fallbackOpts.length) {
     const pick = fallbackOpts[Math.floor(Math.random() * fallbackOpts.length)];
     if (!options.has(pick)) options.add(pick);
     i++;
   }
-  // ensure 3 options
-  const optsArr = Array.from(options).slice(0,3);
-  // shuffle and pick correct index
+  
+  const optsArr = Array.from(options).slice(0, 3);
   const shuffled = shuffle(optsArr);
   const correctIndex = shuffled.findIndex(x => x === correct);
 
-  const explanation = p.note || `On ${p.name || 'this play'}, the Mike's role is ${correct}.`;
-  const coachingCue = (p.keyReads && p.keyReads.length) ? `Key reads: ${p.keyReads.join(', ')}.` : 'Watch the RB release and QB drop.';
+  const explanation = p.note || `On ${playName}, the correct response is: ${correct}.`;
+  const coachingCue = (p.keyReads && p.keyReads.length) ? `Key reads: ${p.keyReads.join(', ')}.` : 'Read your keys and execute your technique.';
 
   return {
     scenario,
