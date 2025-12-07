@@ -63,7 +63,8 @@
       "offensiveFormation": "2x2 Spread",
       "type": "fillin",
       "question": "In 4-2-5 Cover 4 vs 2x2 Spread, which defenders play deep quarters? ________ + ________",
-      "answer": "Both safeties + Both corners"
+      "answer": "Both safeties + Both corners",
+      "requiredItems": ["corners", "safeties"]
     },
     {
       "play": "4-2-5 Cover 4",

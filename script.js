@@ -179,6 +179,44 @@ function prevCard() {
 }
 
 /* -- Quiz -- */
+
+// Helper functions for flexible answer grading
+function normalizeAnswer(str) {
+  return str
+    .toLowerCase()
+    .replace(/both|the/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function normalizeToken(str) {
+  return str
+    .toLowerCase()
+    .replace(/both|the|and/g, '')
+    .replace(/[^a-z]/g, '')
+    .trim();
+}
+
+function parseSetAnswer(str) {
+  return str
+    .split(/[\+,&]/)
+    .map(normalizeToken)
+    .filter(Boolean)
+    .sort();
+}
+
+function isCorrectFreeResponse(userAnswer, question) {
+  const userNorm = normalizeAnswer(userAnswer);
+  return question.acceptableAnswers?.some(ans => normalizeAnswer(ans) === userNorm);
+}
+
+function isCorrectSetAnswer(userAnswer, question) {
+  const userSet = parseSetAnswer(userAnswer);
+  const correctSet = question.requiredItems.map(normalizeToken).sort();
+  if (userSet.length !== correctSet.length) return false;
+  return userSet.every((item, i) => item === correctSet[i]);
+}
+
 function startQuiz() {
   const quizContainer = document.getElementById("quizContainer");
   quizContainer.innerHTML = "";
@@ -283,10 +321,22 @@ function startQuiz() {
           submitBtn.classList.add("answered");
           answered++;
           
-          const userAnswer = input.value.trim().toLowerCase();
-          const correctAnswer = q.answer.toLowerCase();
+          const userAnswer = input.value.trim();
+          let isCorrect = false;
           
-          if (userAnswer.includes(correctAnswer) || correctAnswer.includes(userAnswer)) {
+          // Use flexible grading logic
+          if (q.requiredItems) {
+            isCorrect = isCorrectSetAnswer(userAnswer, q);
+          } else if (q.acceptableAnswers) {
+            isCorrect = isCorrectFreeResponse(userAnswer, q);
+          } else {
+            // Fallback to simple substring comparison
+            const userLower = userAnswer.toLowerCase();
+            const correctLower = q.answer.toLowerCase();
+            isCorrect = userLower.includes(correctLower) || correctLower.includes(userLower);
+          }
+          
+          if (isCorrect) {
             input.style.background = "#d5f4e6";
             input.style.border = "2px solid #2ecc71";
             score++;
