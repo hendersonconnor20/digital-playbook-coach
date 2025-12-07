@@ -1392,7 +1392,17 @@ function renderCard() {
   }
   const card = cards[currentCard];
   front.textContent = `${currentCard + 1}. ${card.q}`;
-  back.textContent = `${card.a}\n\n${card.explanation}`;
+  
+  // Build answer text with only defined fields
+  let answerText = card.a || "";
+  if (card.explanation) {
+    answerText += "\n\n" + card.explanation;
+  }
+  if (card.note) {
+    answerText += "\n\n" + card.note;
+  }
+  back.textContent = answerText;
+  
   document.getElementById("card").classList.remove("flipped");
   front.classList.remove("hidden");
   back.classList.add("hidden");
