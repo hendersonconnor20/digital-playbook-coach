@@ -1,0 +1,229 @@
+{
+  "flashcards": {
+    "4-2-5 Cover 1": [
+      {"q": "What is the coverage structure in 4-2-5 Cover 1?", "a": "Cover 1 Man-Free with a deep-middle FS."},
+      {"q": "Who covers the RB/TE?", "a": "Mike and Will in man coverage."},
+      {"q": "What is the DL responsibility?", "a": "Maintain gap integrity — no stunt or blitz."},
+      {"q": "What are the key reads?", "a": "RB motion (man indicator), QB eyes (predicts throw), TE motion (assigns LB coverage)"},
+      {"q": "What offensive concepts should you expect?", "a": "Four Verticals (stresses deep middle), Mesh (uses rubs vs man), Zone Read (stresses backside DE and LB eye discipline)"}
+    ],
+    "4-2-5 Cover 2": [
+      {"q": "What do the corners do in Cover 2?", "a": "Jam and sink to flats (cloud technique)."},
+      {"q": "Who plays deep halves?", "a": "FS and SS."},
+      {"q": "What is Mike's drop?", "a": "Middle Hook relating to #3 WR."},
+      {"q": "What are the key reads?", "a": "Zone eyes (QB shoulders, route stems)"},
+      {"q": "What offensive concepts should you expect?", "a": "Smash (attacks CB/flat stress), Stick (attacks hook/curl defenders), Screens (force fast trigger from corners)"}
+    ],
+    "4-2-5 Cover 4": [
+      {"q": "Who plays the deep quarters?", "a": "Both safeties + both corners."},
+      {"q": "What is Mike's job?", "a": "Middle Hook off #3 WR."},
+      {"q": "What does Will cover?", "a": "Weak Curl/Flat."},
+      {"q": "What are the key reads?", "a": "Zone eyes and patient footwork"},
+      {"q": "What offensive concepts should you expect?", "a": "Smash (stresses corners in Quarters), Four Verts (stresses safeties), Mesh (forces passing of routes in zone match rules)"}
+    ],
+    "Cover 1 Badger": [
+      {"q": "Who plays the deep middle?", "a": "Free Safety."},
+      {"q": "What do Mike and Will do?", "a": "One blitzes B-Gap; the other plays QB spy."},
+      {"q": "What are the key reads?", "a": "Eyes on man in coverage; Identify blitz LB based on RB alignment"},
+      {"q": "What offensive concepts should you expect?", "a": "Mesh rub routes vs man, Stick isolates LB on RB, Screens punish man eyes"}
+    ],
+    "Nipsey 2 Trap": [
+      {"q": "What does the Field Corner do?", "a": "Plays trap technique (bait → jump underneath routes)."},
+      {"q": "Who plays deep halves?", "a": "Strong Safety + Boundary Corner."},
+      {"q": "What do Mike and Will show pre-snap?", "a": "Double Mug in both A-Gaps, then drop to curls."},
+      {"q": "What are the key reads?", "a": "#2 WR to each side; QB eyes from zone defenders"},
+      {"q": "What offensive concepts should you expect?", "a": "Smash (trap attempts to steal corner route), Stick (LB must match #2), Screens (nickel blitz affects perimeter)"}
+    ],
+    "Waylon 3 Fire": [
+      {"q": "Who blitzes?", "a": "Will linebacker through weak B-Gap."},
+      {"q": "What does the FS do?", "a": "Rolls down to weak flat to replace blitzer."},
+      {"q": "Who owns deep thirds?", "a": "Both corners + Strong Safety."},
+      {"q": "What are the key reads?", "a": "Blitz side identification; Zone eyes for off-ball defenders"},
+      {"q": "What offensive concepts should you expect?", "a": "Smash (stresses deep third defender), Mesh (crosses occupy hook/flat drops), 4 Verts (seam players expand to cover 3 lane)"}
+    ]
+  },
+  "quizQuestions": [
+    {
+      "play": "4-2-5 Cover 1",
+      "type": "mcq",
+      "question": "In Cover 1, who plays deep middle?",
+      "options": ["Nickel", "Free Safety", "Mike", "Will"],
+      "answer": "Free Safety"
+    },
+    {
+      "play": "4-2-5 Cover 1",
+      "type": "mcq",
+      "question": "Mike's responsibility is:",
+      "options": ["Middle Hook", "Blitz B-Gap", "Man on RB/TE", "Deep Half"],
+      "answer": "Man on RB/TE"
+    },
+    {
+      "play": "4-2-5 Cover 1",
+      "type": "tf",
+      "question": "DL are responsible for gap integrity.",
+      "answer": true
+    },
+    {
+      "play": "4-2-5 Cover 1",
+      "type": "fillin",
+      "question": "The key offensive concepts to expect are ________, ________, and ________.",
+      "answer": "Four Verticals, Mesh, Zone Read"
+    },
+    {
+      "play": "4-2-5 Cover 2",
+      "type": "mcq",
+      "question": "Who plays deep halves in Cover 2?",
+      "options": ["Corners", "Mike and Will", "FS and SS", "Nickel"],
+      "answer": "FS and SS"
+    },
+    {
+      "play": "4-2-5 Cover 2",
+      "type": "fillin",
+      "question": "Mike drops to the ________ relating to #3 WR.",
+      "answer": "Middle Hook"
+    },
+    {
+      "play": "4-2-5 Cover 2",
+      "type": "tf",
+      "question": "Corners play soft bail technique in Cover 2.",
+      "answer": false
+    },
+    {
+      "play": "4-2-5 Cover 4",
+      "type": "fillin",
+      "question": "Which defenders play deep quarters? ________ + ________",
+      "answer": "Both safeties + Both corners"
+    },
+    {
+      "play": "4-2-5 Cover 4",
+      "type": "tf",
+      "question": "Will is responsible for weak curl/flat.",
+      "answer": true
+    },
+    {
+      "play": "4-2-5 Cover 4",
+      "type": "fillin",
+      "question": "Cover 4 is also known as ________.",
+      "answer": "Quarters"
+    },
+    {
+      "play": "Cover 1 Badger",
+      "type": "mcq",
+      "question": "In Cover 1 Badger, one LB will always:",
+      "options": ["Drop to curl", "Blitz B-Gap", "Cover deep half", "Rotate with FS"],
+      "answer": "Blitz B-Gap"
+    },
+    {
+      "play": "Cover 1 Badger",
+      "type": "fillin",
+      "question": "The non-blitzing LB plays ________.",
+      "answer": "Spy"
+    },
+    {
+      "play": "Cover 1 Badger",
+      "type": "tf",
+      "question": "Underneath defenders are in zone coverage.",
+      "answer": false
+    },
+    {
+      "play": "Nipsey 2 Trap",
+      "type": "fillin",
+      "question": "Who plays the deep halves? ________ and ________",
+      "answer": "Strong Safety and Boundary Corner"
+    },
+    {
+      "play": "Nipsey 2 Trap",
+      "type": "mcq",
+      "question": "The Field Corner plays:",
+      "options": ["Man", "Quarters", "Trap technique", "Deep middle"],
+      "answer": "Trap technique"
+    },
+    {
+      "play": "Nipsey 2 Trap",
+      "type": "tf",
+      "question": "Mike and Will blitz from the double mug.",
+      "answer": false
+    },
+    {
+      "play": "Waylon 3 Fire",
+      "type": "fillin",
+      "question": "Who replaces the blitzing Will in coverage? ________",
+      "answer": "Free Safety"
+    },
+    {
+      "play": "Waylon 3 Fire",
+      "type": "fillin",
+      "question": "Which defenders play deep thirds? ________, ________, ________",
+      "answer": "Both corners + Strong Safety"
+    },
+    {
+      "play": "Waylon 3 Fire",
+      "type": "tf",
+      "question": "Nickel drops to weak flat.",
+      "answer": false
+    }
+  ],
+  "scenarios": {
+    "4-2-5 Cover 1": {
+      "setup": "Offense aligns in 2x2 Spread. RB motions out to boundary. TE shifts across formation. QB scans deep to move FS.",
+      "question": "Based on your defensive call (4-2-5 Cover 1), how should Mike, Will, and the secondary adjust?",
+      "coachingPoints": [
+        "Mike bumps to RB",
+        "Will takes TE",
+        "FS holds deep middle",
+        "Execute man technique",
+        "DL maintains gap integrity"
+      ]
+    },
+    "4-2-5 Cover 2": {
+      "setup": "Offense runs Smash to the field side. QB pumps to hitch then tries to hit corner route.",
+      "question": "How should the field CB and FS respond?",
+      "coachingPoints": [
+        "Field CB sinks under corner route",
+        "FS takes deep half and squeezes corner",
+        "Mike settles under #3 in hook",
+        "Boundary CB protects flat"
+      ]
+    },
+    "4-2-5 Cover 4": {
+      "setup": "Offense runs Four Verticals. #2 releases vertical on both sides.",
+      "question": "How should the safeties, Mike, and underneath defenders respond?",
+      "coachingPoints": [
+        "Safeties midpoint #2 and #1",
+        "Mike relates to #3",
+        "Nickel/Will match curl/flat late",
+        "Corners take outside quarters"
+      ]
+    },
+    "Cover 1 Badger": {
+      "setup": "RB aligns to field. LB to that side blitzes B-Gap. QB attempts QB draw.",
+      "question": "What are the responsibilities of the blitzing LB, non-blitz LB, and FS?",
+      "coachingPoints": [
+        "Blitz LB attacks B-Gap",
+        "Non-blitz LB spies QB and fits inside out",
+        "FS protects deep middle",
+        "All underneath defenders in man coverage"
+      ]
+    },
+    "Nipsey 2 Trap": {
+      "setup": "Offense runs Stick to the field. #2 runs quick out.",
+      "question": "How should the Field Corner, deep defenders, and LBs respond?",
+      "coachingPoints": [
+        "Field Corner traps and jumps #2 route",
+        "Deep half players cap verticals",
+        "Mike/Will drop to curl windows",
+        "Nickel edge blitzes"
+      ]
+    },
+    "Waylon 3 Fire": {
+      "setup": "Offense runs screen to weak side. Will blitzes B-Gap.",
+      "question": "How should FS, Mike, Nickel, and deep defenders adjust?",
+      "coachingPoints": [
+        "FS rolls down to weak flat → trigger on screen",
+        "Mike drops middle hook",
+        "Nickel plays field flat",
+        "Corners + SS take deep thirds"
+      ]
+    }
+  }
+}

@@ -3,6 +3,7 @@ let cards = [];
 let currentCard = 0;
 let promptLog = JSON.parse(localStorage.getItem("promptLog") || "[]");
 let diagrams = JSON.parse(localStorage.getItem("diagrams") || "[]");
+let studyContent = null;
 
 function showSection(id) {
   document.querySelectorAll("section").forEach((section) => {
@@ -41,10 +42,24 @@ function loadDiagrams() {
         localStorage.setItem("diagrams", JSON.stringify(diagrams));
         populateDiagramGallery();
       }
+      return loadStudyContent();
     })
     .catch((e) => {
       console.warn("Could not load diagrams.json, using localStorage", e);
       populateDiagramGallery();
+      return loadStudyContent();
+    });
+}
+
+function loadStudyContent() {
+  return fetch("study_content.json")
+    .then((r) => r.json())
+    .then((data) => {
+      studyContent = data;
+      console.log("Study content loaded:", studyContent);
+    })
+    .catch((e) => {
+      console.warn("Could not load study_content.json", e);
     });
 }
 
@@ -152,51 +167,136 @@ function prevCard() {
 /* -- Quiz -- */
 function startQuiz() {
   const quizContainer = document.getElementById("quizContainer");
-  console.log('startQuiz called, plays length=', plays.length);
   quizContainer.innerHTML = "";
-  if (!plays.length) {
-    quizContainer.textContent = "Load plays before starting a quiz.";
+  
+  if (!studyContent || !studyContent.quizQuestions) {
+    quizContainer.textContent = "Study content not loaded. Please refresh the page.";
     return;
   }
+  
   try {
-    const questions = makeQuizQuestions(5);
-    console.log('Quiz questions generated:', questions);
+    const allQuestions = studyContent.quizQuestions;
+    const selectedQuestions = shuffle([...allQuestions]).slice(0, 10);
+    
     let score = 0;
-    questions.forEach((q, idx) => {
-    const qDiv = document.createElement("div");
-    qDiv.className = "playCard";
-    const title = document.createElement("h3");
-    title.textContent = `Q${idx + 1}: ${q.question}`;
-    qDiv.appendChild(title);
-    q.options.forEach((opt) => {
-      const btn = document.createElement("button");
-      btn.type = 'button';
-      btn.textContent = opt;
-      btn.addEventListener("click", () => {
-        if (btn.classList.contains("answered")) return;
-        btn.classList.add("answered");
-        if (opt === q.answer) {
-          btn.style.background = "#2ecc71";
-          score++;
-        } else {
-          btn.style.background = "#e74c3c";
-        }
-        // reveal correct
-        Array.from(qDiv.querySelectorAll("button")).forEach((b) => {
-          if (b.textContent === q.answer) b.style.border = "2px solid #2ecc71";
+    let answered = 0;
+    
+    selectedQuestions.forEach((q, idx) => {
+      const qDiv = document.createElement("div");
+      qDiv.className = "playCard";
+      const title = document.createElement("h3");
+      title.textContent = `Q${idx + 1}: ${q.question}`;
+      qDiv.appendChild(title);
+      
+      if (q.type === "mcq") {
+        // Multiple choice
+        q.options.forEach((opt) => {
+          const btn = document.createElement("button");
+          btn.type = 'button';
+          btn.textContent = opt;
+          btn.addEventListener("click", () => {
+            if (btn.classList.contains("answered")) return;
+            btn.classList.add("answered");
+            answered++;
+            
+            if (opt === q.answer) {
+              btn.style.background = "#2ecc71";
+              score++;
+            } else {
+              btn.style.background = "#e74c3c";
+            }
+            
+            // Reveal correct answer
+            Array.from(qDiv.querySelectorAll("button")).forEach((b) => {
+              if (b.textContent === q.answer) b.style.border = "2px solid #2ecc71";
+              b.disabled = true;
+            });
+            
+            if (answered === selectedQuestions.length) {
+              showQuizResults(quizContainer, score, selectedQuestions.length);
+            }
+          });
+          qDiv.appendChild(btn);
         });
-        if (idx === questions.length - 1) {
-          const res = document.createElement("p");
-          res.textContent = `Score: ${score}/${questions.length}`;
-          quizContainer.appendChild(res);
-          // simulated AI feedback
-          const feedback = `You answered ${score} of ${questions.length} correctly. Focus on formation reads and blitz recognition.`;
-          recordPromptLog("quiz_run", `Questions:${questions.length} Score:${score} Feedback:${feedback}`);
-        }
-      });
-      qDiv.appendChild(btn);
-    });
-    quizContainer.appendChild(qDiv);
+      } else if (q.type === "tf") {
+        // True/False
+        ["True", "False"].forEach((opt) => {
+          const btn = document.createElement("button");
+          btn.type = 'button';
+          btn.textContent = opt;
+          btn.addEventListener("click", () => {
+            if (btn.classList.contains("answered")) return;
+            btn.classList.add("answered");
+            answered++;
+            
+            const userAnswer = opt === "True";
+            if (userAnswer === q.answer) {
+              btn.style.background = "#2ecc71";
+              score++;
+            } else {
+              btn.style.background = "#e74c3c";
+            }
+            
+            // Show correct answer
+            const correctText = q.answer ? "True" : "False";
+            Array.from(qDiv.querySelectorAll("button")).forEach((b) => {
+              if (b.textContent === correctText) b.style.border = "2px solid #2ecc71";
+              b.disabled = true;
+            });
+            
+            if (answered === selectedQuestions.length) {
+              showQuizResults(quizContainer, score, selectedQuestions.length);
+            }
+          });
+          qDiv.appendChild(btn);
+        });
+      } else if (q.type === "fillin") {
+        // Fill in the blank
+        const input = document.createElement("input");
+        input.type = "text";
+        input.placeholder = "Type your answer...";
+        input.style.width = "80%";
+        input.style.padding = "8px";
+        input.style.marginTop = "10px";
+        qDiv.appendChild(input);
+        
+        const submitBtn = document.createElement("button");
+        submitBtn.textContent = "Submit";
+        submitBtn.style.marginTop = "10px";
+        submitBtn.addEventListener("click", () => {
+          if (submitBtn.classList.contains("answered")) return;
+          submitBtn.classList.add("answered");
+          answered++;
+          
+          const userAnswer = input.value.trim().toLowerCase();
+          const correctAnswer = q.answer.toLowerCase();
+          
+          if (userAnswer.includes(correctAnswer) || correctAnswer.includes(userAnswer)) {
+            input.style.background = "#d5f4e6";
+            input.style.border = "2px solid #2ecc71";
+            score++;
+          } else {
+            input.style.background = "#fadbd8";
+            input.style.border = "2px solid #e74c3c";
+          }
+          
+          const answerText = document.createElement("p");
+          answerText.textContent = `Correct answer: ${q.answer}`;
+          answerText.style.color = "#2ecc71";
+          answerText.style.marginTop = "8px";
+          qDiv.appendChild(answerText);
+          
+          input.disabled = true;
+          submitBtn.disabled = true;
+          
+          if (answered === selectedQuestions.length) {
+            showQuizResults(quizContainer, score, selectedQuestions.length);
+          }
+        });
+        qDiv.appendChild(submitBtn);
+      }
+      
+      quizContainer.appendChild(qDiv);
     });
   } catch (err) {
     console.error('Error running quiz', err);
@@ -204,51 +304,18 @@ function startQuiz() {
   }
 }
 
-function makeQuizQuestions(count) {
-  const qs = [];
-  const coverages = [...new Set(plays.map((p) => p.coverage).filter(Boolean))];
-  const usedIndices = new Set();
-  const questionsToGenerate = Math.min(count, plays.length);
-
-  for (let i = 0; i < questionsToGenerate; i++) {
-    let idx;
-    do {
-      idx = Math.floor(Math.random() * plays.length);
-    } while (usedIndices.has(idx));
-    usedIndices.add(idx);
-
-    const p = plays[idx];
-    const correct = p.coverage || p.blitz || "N/A";
-    const options = new Set([correct]);
-
-    // Try to add other real coverages if available
-    if (coverages.length) {
-      const attemptsMax = 20;
-      let attempts = 0;
-      while (options.size < 4 && attempts < attemptsMax) {
-        options.add(coverages[Math.floor(Math.random() * coverages.length)]);
-        attempts++;
-      }
-    }
-
-    // Fallback pool to avoid infinite loops when coverages is empty
-    const fallbackOptions = ["Man Coverage", "Zone Coverage", "Cover 2", "Cover 3", "Cover 4", "Blitz", "No Blitz"];
-    let fbAttempts = 0;
-    while (options.size < 4 && fbAttempts < 20) {
-      options.add(fallbackOptions[Math.floor(Math.random() * fallbackOptions.length)]);
-      fbAttempts++;
-    }
-
-    // Last-resort fill with unique placeholders
-    let placeholderIdx = 1;
-    while (options.size < 4) {
-      options.add(`Option ${placeholderIdx}`);
-      placeholderIdx++;
-    }
-
-    qs.push({ question: `What is the coverage for '${p.name}'?`, options: shuffle(Array.from(options)), answer: correct });
-  }
-  return qs;
+function showQuizResults(container, score, total) {
+  const res = document.createElement("div");
+  res.className = "playCard";
+  res.style.background = "#2c3e50";
+  res.style.color = "#ecf0f1";
+  res.innerHTML = `
+    <h2>Quiz Complete!</h2>
+    <h3>Score: ${score}/${total} (${Math.round((score/total)*100)}%)</h3>
+    <p>${score === total ? "Perfect! You know your plays!" : score >= total * 0.7 ? "Great job! Keep studying." : "Keep practicing. Review the flashcards and try again!"}</p>
+  `;
+  container.appendChild(res);
+  recordPromptLog("quiz_run", `Questions:${total} Score:${score}`);
 }
 
 function shuffle(arr) {
@@ -263,36 +330,70 @@ function shuffle(arr) {
 function startScenario() {
   const container = document.getElementById("scenarioContainer");
   container.innerHTML = "";
+  
+  if (!studyContent || !studyContent.scenarios) {
+    container.textContent = "Study content not loaded. Please refresh the page.";
+    return;
+  }
+  
   if (!plays.length) {
     container.textContent = "Load plays before running a scenario.";
     return;
   }
-  const p = plays[Math.floor(Math.random() * plays.length)];
-  const prompt = `Scenario: Offense shows ${p.formation} in a formation often facing ${p.name}. As Mike (MLB), what is your primary responsibility?`;
-  const options = [p.coverage || "Drop to zone", p.blitz || "No blitz", "Spy RB/Read", "Fill inside gap"];
+  
+  // Pick a random play that has a scenario
+  const playNames = Object.keys(studyContent.scenarios);
+  const selectedPlayName = playNames[Math.floor(Math.random() * playNames.length)];
+  const scenario = studyContent.scenarios[selectedPlayName];
+  
   const qDiv = document.createElement("div");
   qDiv.className = "playCard";
-  qDiv.innerHTML = `<h3>${prompt}</h3>`;
-  options.forEach((opt) => {
-    const btn = document.createElement("button");
-    btn.textContent = opt;
-    btn.addEventListener("click", () => {
-      const correct = p.coverage || "Drop to zone";
-      let response = "";
-      if (opt === correct) {
-        response = `Correct. For ${p.name}, the Mike's first read is to ${correct}.`; 
-        btn.style.background = "#2ecc71";
-      } else {
-        response = `Not quite. The preferred answer is ${correct}. Reason: ${p.note || 'standard play responsibility.'}`;
-        btn.style.background = "#e74c3c";
-      }
-      recordPromptLog(prompt, response);
-      const respEl = document.createElement("p");
-      respEl.textContent = response;
-      qDiv.appendChild(respEl);
+  
+  const title = document.createElement("h3");
+  title.textContent = `Scenario: ${selectedPlayName}`;
+  qDiv.appendChild(title);
+  
+  const setup = document.createElement("p");
+  setup.textContent = scenario.setup;
+  setup.style.fontWeight = "bold";
+  setup.style.marginBottom = "12px";
+  qDiv.appendChild(setup);
+  
+  const question = document.createElement("p");
+  question.textContent = scenario.question;
+  question.style.marginBottom = "12px";
+  qDiv.appendChild(question);
+  
+  const revealBtn = document.createElement("button");
+  revealBtn.textContent = "Show Coaching Points";
+  revealBtn.addEventListener("click", () => {
+    if (revealBtn.classList.contains("revealed")) return;
+    revealBtn.classList.add("revealed");
+    revealBtn.disabled = true;
+    
+    const pointsDiv = document.createElement("div");
+    pointsDiv.style.background = "#d5f4e6";
+    pointsDiv.style.padding = "12px";
+    pointsDiv.style.marginTop = "12px";
+    pointsDiv.style.borderRadius = "4px";
+    
+    const pointsTitle = document.createElement("h4");
+    pointsTitle.textContent = "Correct Coaching Points:";
+    pointsDiv.appendChild(pointsTitle);
+    
+    const pointsList = document.createElement("ul");
+    scenario.coachingPoints.forEach((point) => {
+      const li = document.createElement("li");
+      li.textContent = point;
+      pointsList.appendChild(li);
     });
-    qDiv.appendChild(btn);
+    pointsDiv.appendChild(pointsList);
+    
+    qDiv.appendChild(pointsDiv);
+    recordPromptLog(`Scenario: ${selectedPlayName}`, `Reviewed coaching points`);
   });
+  qDiv.appendChild(revealBtn);
+  
   container.appendChild(qDiv);
 }
 
@@ -319,18 +420,47 @@ async function callAI(prompt) {
 async function startScenarioAI() {
   const container = document.getElementById("scenarioContainer");
   container.innerHTML = "";
-  showStatus('Generating scenario — please wait...');
+  showStatus('Generating AI scenario — please wait...');
   if (!plays.length) {
     container.textContent = "Load plays before running a scenario.";
     hideStatus();
     return;
   }
   const p = plays[Math.floor(Math.random() * plays.length)];
-  const prompt = `You are an experienced defensive coach tutoring a college linebacker (Mike).
-Given the play: ${JSON.stringify(p, null, 2)}
-1) Create a short game-like scenario (1-2 sentences) describing the offensive alignment and a single decision the Mike must make.
-2) Provide 3 multiple-choice options (A/B/C) for the player's choice.
-3) Indicate the correct option and give a concise explanation and a coaching cue (one sentence). Respond in plain text.`;
+  
+  const prompt = `Generate a defensive recognition scenario based on the selected play.
+
+Play Information:
+- Name: ${p.name}
+- Offensive Formation: ${p.offensiveFormation}
+- Expected Offensive Concepts: ${p.offensivePlay}
+- Defensive Formation: ${p.defensiveFormation}
+- Coverage: ${p.coverage}
+- Blitz: ${p.blitz}
+- Note: ${p.note}
+- Key Reads: ${p.keyReads ? p.keyReads.join(', ') : 'N/A'}
+- Mike Responsibility: ${p.responsibilities ? p.responsibilities.Mike : 'N/A'}
+- Will Responsibility: ${p.responsibilities ? p.responsibilities.Will : 'N/A'}
+
+The scenario should include:
+- Pre-snap motion
+- A primary offensive route concept from: ${p.offensivePlay}
+- A post-snap conflict for the defender
+- A question requiring the user to identify their assignment or adjustment
+
+Provide:
+1) A short game-like scenario (2-3 sentences) describing the offensive alignment and motion
+2) 3 multiple-choice options (A/B/C) for the correct defensive adjustment
+3) The correct option and a brief coaching explanation
+
+Format your response as JSON with this structure:
+{
+  "scenario": "...",
+  "options": ["A", "B", "C"],
+  "correctIndex": 0,
+  "explanation": "...",
+  "coachingCue": "..."
+}`;
 
   const data = await callAI(prompt);
   
@@ -465,18 +595,31 @@ function escapeHtml(s) {
 }
 
 function generateFlashcardsFromPlays() {
-  if (!plays || !plays.length) {
-    toast('No plays loaded to generate flashcards from.', { type: 'warn' });
+  if (!studyContent || !studyContent.flashcards) {
+    toast('Study content not loaded. Please refresh the page.', { type: 'warn' });
     return;
   }
-  cards = plays.map((p) => {
-    const q = `What is the coverage for '${p.name}'?`;
-    const a = p.coverage || p.blitz || 'Unknown';
-    const explanation = (p.note && String(p.note).slice(0,300)) || (p.keyReads && p.keyReads.join(', ')) || '';
-    return { q, a, explanation };
+  
+  cards = [];
+  Object.keys(studyContent.flashcards).forEach((playName) => {
+    const playCards = studyContent.flashcards[playName];
+    playCards.forEach((card) => {
+      cards.push({
+        q: `[${playName}] ${card.q}`,
+        a: card.a,
+        playName: playName
+      });
+    });
   });
+  
+  if (!cards.length) {
+    toast('No flashcards available.', { type: 'warn' });
+    return;
+  }
+  
   currentCard = 0;
   renderCard();
+  toast(`Generated ${cards.length} flashcards from all plays!`, { type: 'success' });
   recordPromptLog('generate_flashcards', `Generated ${cards.length} flashcards from plays`);
 }
 
