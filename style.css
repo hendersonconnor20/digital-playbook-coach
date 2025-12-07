@@ -170,6 +170,29 @@ section.active {
   display: block;
 }
 
+.intro-paragraph {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #e0e0e0;
+  background: rgba(30, 30, 30, 0.6);
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #4ecdc4;
+  margin: 20px auto;
+  max-width: 900px;
+}
+
+.page-instructions {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #d0d0d0;
+  background: rgba(30, 30, 30, 0.5);
+  padding: 15px;
+  border-radius: 6px;
+  border-left: 3px solid #4ecdc4;
+  margin-bottom: 20px;
+}
+
 #playList {
   display: flex;
   flex-direction: column;

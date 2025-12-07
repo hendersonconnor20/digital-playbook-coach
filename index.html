@@ -25,7 +25,7 @@
     <main>
         <section id="dashboard" class="active">
           <h2>Welcome, Player!</h2>
-          <p>Use the tabs to browse plays, study with flashcards, take quizzes, and run scenario drills.</p>
+          <p class="intro-paragraph">Welcome to the Digital Playbook Tutor — an interactive learning tool designed to help linebackers study defensive playbook concepts through flashcards, quizzes, and scenario-based drills. This prototype integrates AI to transform written plays and diagrams into personalized study materials, allowing athletes to engage more deeply with reads, responsibilities, and game-like decision-making.</p>
           
           <div class="dashboard-grid">
             <div class="dashboard-card" data-section="playbook">
@@ -123,6 +123,7 @@
 
         <section id="flashcards">
           <h2>Flashcards</h2>
+          <p class="page-instructions">Use this tool to study defensive concepts one card at a time. Flashcards are generated from the playbook entries you load into the system, focusing on responsibilities, reads, and terminology. Select a play, flip through key concepts, and use active recall to strengthen understanding of linebacker assignments.</p>
           <div id="flashcardArea">
             <div id="card" class="playCard flashcard">
               <div id="cardFront" class="card-face">Question</div>
@@ -139,6 +140,7 @@
 
         <section id="quiz">
           <h2>Quiz</h2>
+          <p class="page-instructions">Test your understanding of specific defensive calls versus the 2x2 Spread formation. Each quiz question references the exact play you are being evaluated on, helping you assess your knowledge of reads, responsibilities, and structural coverage rules. Use this feature to identify areas for improvement before entering game-speed scenarios.</p>
           <div id="quizContainer"></div>
           <div class="controls">
             <button id="startQuiz">Start Quiz</button>
@@ -147,6 +149,7 @@
 
         <section id="scenario">
           <h2>Scenario Drill</h2>
+          <p class="page-instructions">Practice real-time defensive decision-making. <strong>New Scenario</strong> generates a game situation directly from your saved plays, while <strong>AI Scenario (LLM)</strong> creates an original, AI-driven scenario based on offensive motions, concepts, and alignments. Respond as you would on the field and compare your decision to the expected assignment.</p>
           <div id="scenarioContainer"></div>
           <div class="controls">
             <button id="startScenario">New Scenario</button>
@@ -164,18 +167,71 @@
         </section>
 
         <section id="guide">
-          <h2>How to use the AI Playbook Tutor</h2>
-          <ol>
-            <li>Import or paste your playbook (JSON recommended).</li>
-            <li>Use Flashcards to drill terminology and responsibilities.</li>
-            <li>Run Quiz and Scenario drills to practice decision-making.</li>
-            <li>Review the Prompt Log to see the prompts/responses used by the prototype.</li>
-          </ol>
-          <h3>Example prompts (prototype):</h3>
+          <h2>Digital Playbook Tutor — User Guide</h2>
+          
+          <h3>1. Overview</h3>
+          <p>The Digital Playbook Tutor is an AI-supported learning tool designed to help linebackers study defensive calls, strengthen recognition skills, and practice decision-making through interactive study modes.</p>
+          
+          <h3>2. How to Use Each Feature</h3>
+          
+          <h4>A. Playbook Explorer</h4>
+          <p>Use this tab to enter or upload your defensive plays. Each play includes:</p>
           <ul>
-            <li>"Create a flashcard: What is the coverage for 'Base Cover 3'?"</li>
-            <li>"Generate a scenario: Offense shows trips right; what should Mike do?"</li>
+            <li>Play name</li>
+            <li>Offensive formation (2x2 Spread)</li>
+            <li>Offensive concepts</li>
+            <li>Coverage</li>
+            <li>Blitz</li>
+            <li>Key reads</li>
+            <li>Mike/Will responsibilities</li>
           </ul>
+          <p>These details populate all other study tools.</p>
+          
+          <h4>B. Flashcards</h4>
+          <p>Flashcards convert your playbook entries into bite-sized concepts. Use them to:</p>
+          <ul>
+            <li>Learn terminology</li>
+            <li>Memorize reads</li>
+            <li>Review assignments</li>
+            <li>Strengthen foundational knowledge</li>
+          </ul>
+          <p>Flip cards to reveal answers and move through the deck to build mastery.</p>
+          
+          <h4>C. Quiz Mode</h4>
+          <p>The quiz checks understanding of each play in context:</p>
+          <ul>
+            <li>Every question references a specific defensive call</li>
+            <li>Each item specifies the offensive formation: 2x2 Spread</li>
+            <li>Question types include multiple choice, true/false, and fill-in responses</li>
+          </ul>
+          <p>Use Quiz Mode regularly to reinforce memory and identify gaps.</p>
+          
+          <h4>D. Scenario Drill</h4>
+          <p>This feature supports higher-order thinking:</p>
+          <ul>
+            <li><strong>New Scenario</strong> generates a situation tied directly to your stored plays</li>
+            <li><strong>AI Scenario (LLM)</strong> generates a creative game-ready scenario using AI</li>
+          </ul>
+          <p>Scenarios may include motions, shifts, route combinations, or run threats that require linebackers to adjust and respond correctly.</p>
+          
+          <h4>E. Prompts Log</h4>
+          <p>This section stores the AI prompts and responses generated during your study sessions. Use it for:</p>
+          <ul>
+            <li>Reflection</li>
+            <li>Documentation</li>
+            <li>Understanding how AI supports learning</li>
+          </ul>
+          
+          <h4>F. Who This Tool Is For</h4>
+          <ul>
+            <li>Linebackers</li>
+            <li>Defensive players learning coverage structures</li>
+            <li>Coaches interested in AI-supported teaching</li>
+            <li>Students studying decision-making under pressure</li>
+          </ul>
+          
+          <h3>3. Ethical AI Use</h3>
+          <p>This tool is meant to supplement—not replace—coaching instruction. Students should verify AI-generated outputs against coach-approved materials and remain critically aware of potential errors or oversimplifications.</p>
         </section>
       </main>
   
