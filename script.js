@@ -18,19 +18,19 @@ function initNav() {
     btn.addEventListener("click", () => showSection(btn.dataset.section));
   });
   
-  // Make dashboard cards clickable
-  const dashboardCards = document.querySelectorAll(".dashboard-card");
-  console.log('Found dashboard cards:', dashboardCards.length);
-  dashboardCards.forEach((card) => {
-    console.log('Adding click to card:', card.dataset.section);
-    card.addEventListener("click", () => {
-      const section = card.dataset.section;
-      console.log('Dashboard card clicked, navigating to:', section);
-      if (section) {
-        showSection(section);
+  // Make dashboard cards clickable using event delegation
+  const dashboardGrid = document.querySelector(".dashboard-grid");
+  if (dashboardGrid) {
+    dashboardGrid.addEventListener("click", (e) => {
+      // Find the closest dashboard-card parent
+      const card = e.target.closest(".dashboard-card");
+      if (card && card.dataset.section) {
+        console.log('Dashboard card clicked, navigating to:', card.dataset.section);
+        showSection(card.dataset.section);
       }
     });
-  });
+    console.log('Dashboard card click handler attached');
+  }
 }
 
 function loadPlays() {
