@@ -119,8 +119,9 @@
   ],
   "scenarios": {
     "4-2-5 Cover 1": {
+      "playName": "4-2-5 Cover 1",
       "setup": "Offense aligns in 2x2 Spread. RB motions out to boundary. TE shifts across formation. QB scans deep to move FS.",
-      "question": "Based on your defensive call (4-2-5 Cover 1), how should Mike, Will, and the secondary adjust?",
+      "question": "You're playing 4-2-5 Cover 1. How should Mike, Will, and the secondary adjust?",
       "coachingPoints": [
         "Mike bumps to RB",
         "Will takes TE",
@@ -130,8 +131,9 @@
       ]
     },
     "4-2-5 Cover 2": {
+      "playName": "4-2-5 Cover 2",
       "setup": "Offense runs Smash to the field side. QB pumps to hitch then tries to hit corner route.",
-      "question": "How should the field CB and FS respond?",
+      "question": "You're playing 4-2-5 Cover 2. How should the field CB and FS respond?",
       "coachingPoints": [
         "Field CB sinks under corner route",
         "FS takes deep half and squeezes corner",
@@ -140,8 +142,9 @@
       ]
     },
     "4-2-5 Cover 4": {
+      "playName": "4-2-5 Cover 4",
       "setup": "Offense runs Four Verticals. #2 releases vertical on both sides.",
-      "question": "How should the safeties, Mike, and underneath defenders respond?",
+      "question": "You're playing 4-2-5 Cover 4. How should the safeties, Mike, and underneath defenders respond?",
       "coachingPoints": [
         "Safeties midpoint #2 and #1",
         "Mike relates to #3",
@@ -150,8 +153,9 @@
       ]
     },
     "Cover 1 Badger": {
+      "playName": "Cover 1 Badger",
       "setup": "RB aligns to field. LB to that side blitzes B-Gap. QB attempts QB draw.",
-      "question": "What are the responsibilities of the blitzing LB, non-blitz LB, and FS?",
+      "question": "You're playing Cover 1 Badger. What are the responsibilities of the blitzing LB, non-blitz LB, and FS?",
       "coachingPoints": [
         "Blitz LB attacks B-Gap",
         "Non-blitz LB spies QB and fits inside out",
@@ -160,8 +164,9 @@
       ]
     },
     "Nipsey 2 Trap": {
+      "playName": "Nipsey 2 Trap",
       "setup": "Offense runs Stick to the field. #2 runs quick out.",
-      "question": "How should the Field Corner, deep defenders, and LBs respond?",
+      "question": "You're playing Nipsey 2 Trap. How should the Field Corner, deep defenders, and LBs respond?",
       "coachingPoints": [
         "Field Corner traps and jumps #2 route",
         "Deep half players cap verticals",
@@ -170,8 +175,9 @@
       ]
     },
     "Waylon 3 Fire": {
+      "playName": "Waylon 3 Fire",
       "setup": "Offense runs screen to weak side. Will blitzes B-Gap.",
-      "question": "How should FS, Mike, Nickel, and deep defenders adjust?",
+      "question": "You're playing Waylon 3 Fire. How should FS, Mike, Nickel, and deep defenders adjust?",
       "coachingPoints": [
         "FS rolls down to weak flat → trigger on screen",
         "Mike drops middle hook",

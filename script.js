@@ -515,6 +515,8 @@ Play Information:
 - Mike Responsibility: ${p.responsibilities ? p.responsibilities.Mike : 'N/A'}
 - Will Responsibility: ${p.responsibilities ? p.responsibilities.Will : 'N/A'}
 
+IMPORTANT: The first sentence of your scenario MUST explicitly state "You're playing ${p.name} ..." and the entire scenario logic must be consistent with that specific defensive call (${p.coverage}, ${p.blitz}).
+
 The scenario should include:
 - Pre-snap motion
 - A primary offensive route concept from: ${p.offensivePlay}
@@ -522,7 +524,7 @@ The scenario should include:
 - A question requiring the user to identify their assignment or adjustment
 
 Provide:
-1) A short game-like scenario (2-3 sentences) describing the offensive alignment and motion
+1) A short game-like scenario (2-3 sentences) describing the offensive alignment and motion, starting with "You're playing ${p.name} ..."
 2) 3 multiple-choice options (A/B/C) for the correct defensive adjustment
 3) The correct option and a brief coaching explanation
 
