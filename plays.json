@@ -15,15 +15,12 @@
       ],
       "responsibilities": {
         "Mike": "Man on RB/TE",
-        "Will": "Man on RB/TE"
-      },
-      "defResponsibilities": {
-        "DE": "Contain rush",
-        "DT": "Gap control",
-        "CB": "Man on WR",
-        "Nickel": "Man on slot",
-        "FS": "Deep middle zone",
-        "SS": "Robber/underneath zone"
+        "Will": "Man on RB/TE",
+        "Nickel": "Man coverage on slot receiver",
+        "FS": "Deep middle third (free safety)",
+        "SS": "Robber zone or man on slot",
+        "Corners": "Press man coverage on outside receivers",
+        "DL": "Gap integrity, contain rush lanes"
       },
       "diagram": null
     },
@@ -39,10 +36,14 @@
         "Zone eyes in coverage"
       ],
       "responsibilities": {
-        "Mike": "Middle Hook",
-        "Will": "Hook/curl zone"
+        "Mike": "Middle hook zone off #3 receiver",
+        "Will": "Hook/curl zone weak side",
+        "Nickel": "Hook/curl zone strong side",
+        "FS": "Deep half (boundary side)",
+        "SS": "Deep half (field side)",
+        "Corners": "Jam and sink to flats (cloud technique)",
+        "DL": "Gap integrity, rush quarterback"
       },
-      "defResponsibilities": {},
       "diagram": ""
     },
     {
@@ -57,10 +58,14 @@
         "Zone coverage eyes and footwork"
       ],
       "responsibilities": {
-        "Mike": "Middle Hook",
-        "Will": "Weak Curl Flat"
+        "Mike": "Middle hook off #3 receiver",
+        "Will": "Weak curl/flat off final #2 receiver",
+        "Nickel": "Strong curl/flat off final #2 receiver",
+        "FS": "Deep quarter (boundary)",
+        "SS": "Deep quarter (field)",
+        "Corners": "Deep quarters (outside)",
+        "DL": "Gap integrity, rush quarterback"
       },
-      "defResponsibilities": {},
       "diagram": ""
     },
     {
@@ -76,10 +81,14 @@
         "Eyes to man in coverage"
       ],
       "responsibilities": {
-        "Mike": "Blitz or spy",
-        "Will": "Blitz or spy"
+        "Mike": "B-gap blitz (if RB to Mike side) or QB spy",
+        "Will": "B-gap blitz (if RB to Will side) or QB spy",
+        "Nickel": "Man coverage on slot receiver",
+        "FS": "Deep middle third (post safety)",
+        "SS": "Man coverage on slot or tight end",
+        "Corners": "Press man coverage on outside receivers",
+        "DL": "Gap integrity, rush quarterback"
       },
-      "defResponsibilities": {},
       "diagram": ""
     },
     {
@@ -95,10 +104,14 @@
         "zone eyes in coverage"
       ],
       "responsibilities": {
-        "Mike": "Strong Curl",
-        "Will": "Weak Curl"
+        "Mike": "Strong curl zone (mugs A-gap pre-snap, drops at snap)",
+        "Will": "Weak curl zone (mugs A-gap pre-snap, drops at snap)",
+        "Nickel": "Edge blitz from slot alignment",
+        "FS": "Deep half (boundary side)",
+        "SS": "Deep half (field side)",
+        "Corners": "Field CB: trap technique (bait and jump short routes); Boundary CB: deep half help",
+        "DL": "Gap integrity, rush quarterback"
       },
-      "defResponsibilities": {},
       "diagram": ""
     },
     {
@@ -114,10 +127,14 @@
         "zone eyes for all other off the ball defenders"
       ],
       "responsibilities": {
-        "Mike": "Middle Hook",
-        "Will": "Blitz B-Gap"
+        "Mike": "Middle hook off #3 receiver",
+        "Will": "B-gap blitz (weak side)",
+        "Nickel": "Field flat zone off final #2 receiver",
+        "FS": "Roll down to weak flat (replaces blitzing Will)",
+        "SS": "Deep third (middle)",
+        "Corners": "Deep thirds (outside)",
+        "DL": "Gap integrity, rush quarterback"
       },
-      "defResponsibilities": {},
       "diagram": ""
     }
   ]

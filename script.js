@@ -490,36 +490,120 @@ async function callAI(prompt) {
   }
 }
 
-// Scenario types for varied AI-generated scenarios
+// Enhanced scenario types with position keys for responsibility validation
 const scenarioTypes = [
-  {
-    roleLabel: "Mike linebacker",
-    questionStem: "As the Mike linebacker, what should you do?"
+  { 
+    id: "mike", 
+    roleLabel: "Mike linebacker", 
+    key: "Mike", 
+    stem: "As the Mike linebacker, what is your responsibility?" 
   },
-  {
-    roleLabel: "Will linebacker",
-    questionStem: "As the Will linebacker, what is your assignment?"
+  { 
+    id: "will", 
+    roleLabel: "Will linebacker", 
+    key: "Will", 
+    stem: "As the Will linebacker, how should you respond?" 
   },
-  {
-    roleLabel: "Nickel/Star",
-    questionStem: "As the Nickel/Star defender, how should you respond?"
+  { 
+    id: "nickel", 
+    roleLabel: "Nickel", 
+    key: "Nickel", 
+    stem: "As the Nickel, what is your assignment?" 
   },
-  {
-    roleLabel: "Free Safety",
-    questionStem: "As the Free Safety, what is your responsibility?"
+  { 
+    id: "fs", 
+    roleLabel: "Free Safety", 
+    key: "FS", 
+    stem: "As the Free Safety, what is your responsibility?" 
   },
-  {
-    roleLabel: "Cornerback",
-    questionStem: "As the Cornerback, how should you adjust?"
+  { 
+    id: "ss", 
+    roleLabel: "Strong Safety", 
+    key: "SS", 
+    stem: "As the Strong Safety, what is your responsibility?" 
   },
-  {
-    roleLabel: null,
-    questionStem: "Based on the coverage rules, what defensive adjustment is correct?"
+  { 
+    id: "corner", 
+    roleLabel: "Cornerback", 
+    key: "Corners", 
+    stem: "As the cornerback, what technique should you use?" 
+  },
+  { 
+    id: "concept", 
+    roleLabel: null, 
+    key: null, 
+    stem: "From a defensive concept standpoint, what coverage rule applies here?" 
   }
 ];
 
 function pickScenarioType() {
   return scenarioTypes[Math.floor(Math.random() * scenarioTypes.length)];
+}
+
+// Validate AI-generated scenario against play data
+function validateScenario(scenario, play, scenarioType) {
+  // If concept-based, skip position-specific validation
+  if (!scenarioType.key) {
+    // Just verify the play name is mentioned
+    if (!scenario.questionText || !scenario.questionText.includes(play.name)) {
+      console.warn('Scenario missing play name');
+      return false;
+    }
+    return true;
+  }
+  
+  // For position-based scenarios, verify correct responsibility
+  const correctResponsibility = play.responsibilities && play.responsibilities[scenarioType.key];
+  
+  if (!correctResponsibility) {
+    console.warn(`No responsibility defined for ${scenarioType.key} in play ${play.name}`);
+    return false;
+  }
+  
+  // Check if the correct option contains the responsibility
+  const correctOption = scenario.correctOption || (scenario.options && scenario.options[scenario.correctIndex]);
+  
+  if (!correctOption) {
+    console.warn('Scenario missing correct option');
+    return false;
+  }
+  
+  // Normalize and check if responsibility keywords are present
+  const normalizedCorrect = correctOption.toLowerCase();
+  const responsibilityKeywords = correctResponsibility.toLowerCase().split(/[\s,\/]+/).filter(w => w.length > 3);
+  
+  // At least 2 keywords from the responsibility should match
+  const matchCount = responsibilityKeywords.filter(keyword => normalizedCorrect.includes(keyword)).length;
+  
+  if (matchCount < 2) {
+    console.warn(`Correct option doesn't match responsibility. Expected keywords from: "${correctResponsibility}", got: "${correctOption}"`);
+    return false;
+  }
+  
+  // Verify coverage consistency (no "deep middle third" in Cover 4, etc.)
+  const coverage = play.coverage.toLowerCase();
+  if (coverage.includes('cover 4') || coverage.includes('quarters')) {
+    if (normalizedCorrect.includes('deep middle') && !normalizedCorrect.includes('hook')) {
+      console.warn('Cover 4 play cannot have "deep middle" responsibility');
+      return false;
+    }
+  }
+  
+  if (coverage.includes('cover 3')) {
+    if (normalizedCorrect.includes('deep half') || normalizedCorrect.includes('deep halves')) {
+      console.warn('Cover 3 play cannot have "deep half" responsibility');
+      return false;
+    }
+  }
+  
+  if (coverage.includes('cover 2')) {
+    if (normalizedCorrect.includes('deep quarter') || normalizedCorrect.includes('deep third')) {
+      console.warn('Cover 2 play cannot have quarters or thirds responsibility');
+      return false;
+    }
+  }
+  
+  return true;
 }
 
 async function startScenarioAI() {
@@ -534,61 +618,90 @@ async function startScenarioAI() {
   const p = plays[Math.floor(Math.random() * plays.length)];
   const scenarioType = pickScenarioType();
   
-  // Build position-specific context if a role is specified
-  const positionContext = scenarioType.roleLabel 
-    ? `\n\nSCENARIO FOCUS: Frame this scenario from the perspective of the ${scenarioType.roleLabel}. The question should ask: "${scenarioType.questionStem}"`
-    : `\n\nSCENARIO FOCUS: Frame this scenario around overall defensive concepts and coverage rules, not from a single position's perspective. The question should ask: "${scenarioType.questionStem}"`;
+  // Build comprehensive responsibilities section
+  const responsibilitiesText = p.responsibilities ? Object.entries(p.responsibilities)
+    .map(([pos, resp]) => `- ${pos}: ${resp}`)
+    .join('\n') : 'N/A';
+  
+  // Build position-specific instruction
+  let positionInstruction = '';
+  if (scenarioType.roleLabel) {
+    const correctAnswer = p.responsibilities && p.responsibilities[scenarioType.key];
+    positionInstruction = `\n\n🎯 SCENARIO FOCUS: ${scenarioType.roleLabel}
+- Ask the question from the perspective of the ${scenarioType.roleLabel}
+- Use this exact question stem: "${scenarioType.stem}"
+- The correct answer MUST be: "${correctAnswer}"
+- You may free-hand the narrative and distractors, but the correct option MUST contain the responsibility listed above
+- DO NOT contradict the coverage rules (${p.coverage})`;
+  } else {
+    positionInstruction = `\n\n🎯 SCENARIO FOCUS: Defensive Concept
+- Frame this around overall coverage rules and defensive concepts
+- DO NOT reference a specific position's assignment
+- Use this question stem: "${scenarioType.stem}"
+- The correct answer should relate to: ${p.coverage} principles
+- You may free-hand the narrative and options`;
+  }
   
   const prompt = `Generate a defensive recognition scenario based on the selected play.
 
-Play Information:
-- Name: ${p.name}
-- Offensive Formation: ${p.offensiveFormation}
-- Expected Offensive Concepts: ${p.offensivePlay}
-- Defensive Formation: ${p.defensiveFormation}
-- Coverage: ${p.coverage}
-- Blitz: ${p.blitz}
-- Note: ${p.note}
-- Key Reads: ${p.keyReads ? p.keyReads.join(', ') : 'N/A'}
-- Mike Responsibility: ${p.responsibilities ? p.responsibilities.Mike : 'N/A'}
-- Will Responsibility: ${p.responsibilities ? p.responsibilities.Will : 'N/A'}${positionContext}
+📋 PLAY INFORMATION (NON-NEGOTIABLE FACTS):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Play Name: ${p.name}
+Offensive Formation: ${p.offensiveFormation || '2x2 Spread'}
+Offensive Concepts: ${p.offensivePlay}
+Defensive Formation: ${p.defensiveFormation}
+Coverage: ${p.coverage}
+Blitz: ${p.blitz}
+Key Reads: ${p.keyReads ? p.keyReads.join(', ') : 'N/A'}
 
-CRITICAL REQUIREMENTS:
-1. The first sentence MUST explicitly state "You're playing ${p.name} ..." 
-2. The entire scenario logic must be consistent with that specific defensive call (${p.coverage}, ${p.blitz})
-3. Use the question stem provided above to frame the decision from the correct perspective
+🔒 DEFENSIVE RESPONSIBILITIES (MUST NOT CONTRADICT):
+${responsibilitiesText}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${positionInstruction}
 
-The scenario should include:
-- Pre-snap motion or offensive alignment
-- A primary offensive route concept from: ${p.offensivePlay}
-- A post-snap conflict for the defender
-- A clear question using the provided question stem
+⚠️ CRITICAL REQUIREMENTS:
+1. First sentence MUST be: "You're playing ${p.name}..."
+2. You MUST NOT contradict any responsibilities listed above
+3. All factual information (assignments, coverage rules) must match the play data exactly
+4. You MAY be creative with: offensive motion, route timing, cadence, pre-snap alignment details
+5. For position-based scenarios: the correct option MUST match the responsibility shown above
 
-Provide:
-1) A short game-like scenario (2-3 sentences) describing the setup, starting with "You're playing ${p.name} ..."
-2) The question using the exact question stem provided
-3) 3 multiple-choice options (A/B/C) for the correct defensive adjustment
-4) The correct option and a brief coaching explanation
+📝 SCENARIO STRUCTURE:
+1. Start with "You're playing ${p.name}..."
+2. Describe offensive alignment and motion (be creative here)
+3. Present a post-snap conflict using concepts from: ${p.offensivePlay}
+4. Ask the question using the stem provided above
+5. Provide 3 options (A/B/C) with the correct one matching the required responsibility
+6. Include a brief coaching explanation
 
-Format your response as JSON with this structure:
+Format your response as JSON:
 {
-  "questionText": "You're playing ${p.name} ... [scenario setup] ... ${scenarioType.questionStem}",
+  "questionText": "You're playing ${p.name}... [your creative scenario]... ${scenarioType.stem}",
   "options": ["A", "B", "C"],
-  "correctOption": "A",
-  "explanation": "..."
+  "correctOption": "A or B or C",
+  "explanation": "Brief coaching point explaining why this is correct"
 }`;
 
   const data = await callAI(prompt);
   
-  // Fall back to local generator if AI failed
+  // Process and validate AI response
   let structured = null;
+  let validationAttempts = 0;
+  const maxAttempts = 2;
+  
   if (data && typeof data === 'object' && data.structured) {
     structured = data.structured;
+    
+    // Validate the scenario
+    if (!validateScenario(structured, p, scenarioType)) {
+      console.warn('AI scenario failed validation, using local generator');
+      structured = generateLocalScenario(p, scenarioType);
+    }
   } else if (typeof data === 'string' && data.toLowerCase().startsWith('ai error')) {
     console.warn('AI backend error, using local generator:', data);
-    structured = generateLocalScenario(p);
+    structured = generateLocalScenario(p, scenarioType);
   } else {
-    structured = generateLocalScenario(p);
+    console.warn('Invalid AI response format, using local generator');
+    structured = generateLocalScenario(p, scenarioType);
   }
   hideStatus();
   
@@ -668,38 +781,83 @@ function updatePromptList() {
   });
 }
 
+/* -- Helper: Generate appropriate distractors based on coverage -- */
+function generateDistractors(correctAnswer, coverage) {
+  const allOptions = [
+    'Hook/curl zone', 'Deep middle third', 'Deep half', 'Deep quarter',
+    'Man on RB/TE', 'Man coverage on slot', 'Man coverage on #1',
+    'Flat zone', 'Curl/flat zone', 'Edge blitz', 'B-gap blitz',
+    'QB spy', 'Robber zone', 'Cloud technique', 'Trap technique',
+    'Outside quarter', 'Press bail', 'Zone match principles',
+    'Pattern match coverage', 'Gap integrity'
+  ];
+  
+  // Filter out options that contradict the coverage
+  let validOptions = allOptions.filter(opt => {
+    const optLower = opt.toLowerCase();
+    const covLower = (coverage || '').toLowerCase();
+    
+    // Exclude deep middle from Cover 2/4
+    if (covLower.includes('cover 2') || covLower.includes('cover 4') || covLower.includes('quarters')) {
+      if (optLower.includes('deep middle') && !optLower.includes('hook')) return false;
+    }
+    
+    // Exclude deep thirds from Cover 2
+    if (covLower.includes('cover 2')) {
+      if (optLower.includes('deep third') || optLower.includes('deep quarter')) return false;
+    }
+    
+    // Exclude deep halves from Cover 3/4
+    if (covLower.includes('cover 3') || covLower.includes('cover 4') || covLower.includes('quarters')) {
+      if (optLower.includes('deep half') || optLower.includes('deep halves')) return false;
+    }
+    
+    return true;
+  });
+  
+  // Remove the correct answer from distractors
+  validOptions = validOptions.filter(opt => opt !== correctAnswer);
+  
+  return validOptions.length > 0 ? validOptions : allOptions;
+}
+
 /* -- Local scenario generator (fallback when AI backend is unavailable) -- */
-function generateLocalScenario(p) {
-  // Pick a random scenario type for variety
-  const scenarioType = pickScenarioType();
-  const formation = p.offensiveFormation || 'an unknown formation';
-  const playDesc = p.offensivePlay || 'a generic play';
+function generateLocalScenario(p, scenarioType = null) {
+  // Use provided scenario type or pick randomly
+  if (!scenarioType) {
+    scenarioType = pickScenarioType();
+  }
+  
+  const formation = p.offensiveFormation || '2x2 Spread';
+  const playDesc = p.offensivePlay || 'a generic play concept';
   const playName = p.name || 'this defense';
   
   let correct, fallbackOpts;
   
-  if (scenarioType.roleLabel === "Mike linebacker") {
+  // Use the actual responsibilities from play data
+  if (scenarioType.key && p.responsibilities && p.responsibilities[scenarioType.key]) {
+    correct = p.responsibilities[scenarioType.key];
+  } else if (scenarioType.roleLabel === "Mike linebacker") {
     correct = (p.responsibilities && p.responsibilities.Mike) || 'Hook/curl zone';
-    fallbackOpts = ['Hook/curl zone', 'Deep middle coverage', 'Man on RB/TE', 'Flat zone', 'Edge contain'];
   } else if (scenarioType.roleLabel === "Will linebacker") {
     correct = (p.responsibilities && p.responsibilities.Will) || 'Weak curl/flat';
-    fallbackOpts = ['Weak curl/flat', 'QB spy', 'Man on TE', 'Strong hook', 'Edge blitz'];
-  } else if (scenarioType.roleLabel === "Nickel/Star") {
-    correct = 'Slot leverage / match #2';
-    fallbackOpts = ['Slot leverage / match #2', 'Deep quarter', 'Flat zone', 'Hook zone', 'Edge blitz'];
+  } else if (scenarioType.roleLabel === "Nickel") {
+    correct = (p.responsibilities && p.responsibilities.Nickel) || 'Slot leverage / match #2';
   } else if (scenarioType.roleLabel === "Free Safety") {
-    correct = 'Deep middle third';
-    fallbackOpts = ['Deep middle third', 'Deep half', 'Deep quarter', 'Hook zone', 'Weak flat'];
+    correct = (p.responsibilities && p.responsibilities.FS) || 'Deep middle third';
+  } else if (scenarioType.roleLabel === "Strong Safety") {
+    correct = (p.responsibilities && p.responsibilities.SS) || 'Deep half';
   } else if (scenarioType.roleLabel === "Cornerback") {
-    correct = p.coverage && p.coverage.includes('Man') ? 'Man coverage on #1' : 'Outside quarter / flat';
-    fallbackOpts = ['Man coverage on #1', 'Outside quarter', 'Cloud (flat)', 'Deep third', 'Press bail'];
+    correct = (p.responsibilities && p.responsibilities.Corners) || 'Outside quarter / man coverage';
   } else {
     // Concept type - ask about overall coverage adjustment
     correct = p.coverage || 'Zone match principles';
-    fallbackOpts = ['Zone match principles', 'Man coverage rules', 'Pattern match', 'Tampa 2 adjustment', 'Quarters coverage'];
   }
   
-  const scenario = `You're playing ${playName}. Offense shows ${formation} and runs ${playDesc}. ${scenarioType.questionStem}`;
+  // Generate appropriate distractors based on coverage type
+  fallbackOpts = generateDistractors(correct, p.coverage);
+  
+  const scenario = `You're playing ${playName}. Offense shows ${formation} and runs ${playDesc}. ${scenarioType.stem}`;
 
   const options = new Set([correct]);
   let i = 0;
