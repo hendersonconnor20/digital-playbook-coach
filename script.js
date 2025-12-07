@@ -25,10 +25,26 @@ function loadPlays() {
       plays = data.plays || [];
       populateDiagramSelect();
       populatePlayList();
-      populateDiagramGallery();
+      return loadDiagrams();
     })
     .catch((e) => {
       console.warn("Could not load plays.json", e);
+    });
+}
+
+function loadDiagrams() {
+  return fetch("diagrams.json")
+    .then((r) => r.json())
+    .then((data) => {
+      if (Array.isArray(data) && data.length > 0) {
+        diagrams = data;
+        localStorage.setItem("diagrams", JSON.stringify(diagrams));
+        populateDiagramGallery();
+      }
+    })
+    .catch((e) => {
+      console.warn("Could not load diagrams.json, using localStorage", e);
+      populateDiagramGallery();
     });
 }
 

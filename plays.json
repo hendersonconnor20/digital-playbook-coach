@@ -8,7 +8,11 @@
       "coverage": "Cover 1 (Man-Free)",
       "blitz": "None",
       "note": "CBs and Nickel play man coverage. FS deep middle. Mike and Will cover RB/TE. DL responsible for gap integrity.",
-      "keyReads": ["RB motion", "QB eyes", "TE motion"],
+      "keyReads": [
+        "RB motion",
+        "QB eyes",
+        "TE motion"
+      ],
       "responsibilities": {
         "Mike": "Man on RB/TE",
         "Will": "Man on RB/TE"
@@ -25,49 +29,39 @@
     },
     {
       "name": "4-2-5 Cover 2",
-      "offensiveFormation": "Trips Right (3 WR right, 1 WR left, 1 RB)",
-      "offensivePlay": "Flood, smash, or inside zone",
+      "offensiveFormation": "2x2 Spread",
+      "offensivePlay": "Smash, Stick, 4 Verticals, Bubble/Tunnel Screens, and Mesh",
       "defensiveFormation": "4-2-5 Base",
       "coverage": "Cover 2 (Two-Deep Zone)",
       "blitz": "None",
-      "note": "CBs jam and sink to flats. FS and SS play deep halves. Mike and Will cover hook/curl zones. Nickel covers slot.",
-      "keyReads": ["Trips formation", "RB release", "TE release"],
+      "note": "CBs jam and sink to flats (cloud technique). FS and SS play deep halves. Mike drops to the middle hook zone, relating to #3 WR. Will and Nickel drop to their hook/curl zones, relating to the number 2 WR to their side.",
+      "keyReads": [
+        "Zone eyes in coverage"
+      ],
       "responsibilities": {
-        "Mike": "Hook/curl zone",
+        "Mike": "Middle Hook",
         "Will": "Hook/curl zone"
       },
-      "defResponsibilities": {
-        "DE": "Contain rush",
-        "DT": "Gap control",
-        "CB": "Flat zone",
-        "Nickel": "Hook zone",
-        "FS": "Deep half",
-        "SS": "Deep half"
-      },
-      "diagram": null
+      "defResponsibilities": {},
+      "diagram": ""
     },
     {
       "name": "4-2-5 Cover 4",
-      "offensiveFormation": "Ace (2 TE, 2 WR, 1 RB)",
-      "offensivePlay": "Play-action, power run, or seam pass",
+      "offensiveFormation": "2x2 Spread",
+      "offensivePlay": "Smash, Stick, 4 Verticals, Bubble/Tunnel Screens, and Mesh",
       "defensiveFormation": "4-2-5 Base",
       "coverage": "Cover 4 (Quarters)",
       "blitz": "None",
-      "note": "Safeties and corners play deep quarters. Mike and Will cover underneath zones. Nickel covers slot. DL responsible for gap integrity.",
-      "keyReads": ["TE alignment", "#2 release", "RB release"],
+      "note": "Safeties and corners play deep quarters. Mike drops to the middle hook off of #3 WR. Will drops to the curl/flat to weak side, off of final #2 to his side. Nickel covers curl/flat to strong side of field. DL responsible for gap integrity.",
+      "keyReads": [
+        "Zone coverage eyes and footwork"
+      ],
       "responsibilities": {
-        "Mike": "Strong hook zone",
-        "Will": "Weak hook zone"
+        "Mike": "Middle Hook",
+        "Will": "Weak Curl Flat"
       },
-      "defResponsibilities": {
-        "DE": "Contain rush",
-        "DT": "Gap control",
-        "CB": "Deep outside quarter",
-        "Nickel": "Hook zone",
-        "FS": "Deep left quarter",
-        "SS": "Deep right quarter"
-      },
-      "diagram": null
+      "defResponsibilities": {},
+      "diagram": ""
     },
     {
       "name": "Cover 1 Badger",
@@ -77,7 +71,10 @@
       "coverage": "Cover 1 Man",
       "blitz": "LB blitz B-Gap, whoever is aligned to the side of the RB.",
       "note": "Free Safety plays the post. All other underneath defenders are in man coverage. The blitzing LB goes through the B-Gap, the non-blitzing LB plays spy technique on the QB.",
-      "keyReads": ["Man in coverage", "Eyes to man in coverage"],
+      "keyReads": [
+        "Man in coverage",
+        "Eyes to man in coverage"
+      ],
       "responsibilities": {
         "Mike": "Blitz or spy",
         "Will": "Blitz or spy"
@@ -93,7 +90,10 @@
       "coverage": "Cover 2 Trap",
       "blitz": "Nickel edge blitz",
       "note": "Strong Safety and Boundary Corner play deep halves in zone coverage. Field Corner plays zone trap technique (pretends to play deep zone (like Cover 3 or Quarters) but actually traps short, in-breaking routes, forcing them to the outside where safeties help). Mike and Will show mugged up in both A-Gaps and then drop to their curl zone when ball is snapped.",
-      "keyReads": ["Number 2 receivers", "zone eyes in coverage"],
+      "keyReads": [
+        "Number 2 receivers",
+        "zone eyes in coverage"
+      ],
       "responsibilities": {
         "Mike": "Strong Curl",
         "Will": "Weak Curl"
@@ -109,7 +109,10 @@
       "coverage": "Cover 3 Fire",
       "blitz": "Will Linebacker B-Gap Blitz",
       "note": "Will linebacker blitzes the B-Gap to the weak side. Both corners and strong safety drop the deep thirds in coverage. Free Safety rolls down to replace the blitzer in coverage, responsible for the weak flat zone. Mike drops to the middle hook, relating to the #3 WR. Nickel drops to the field flat, relating to the final #2 WR.",
-      "keyReads": ["Man eyes on blitzing linebacker", "zone eyes for all other off the ball defenders"],
+      "keyReads": [
+        "Man eyes on blitzing linebacker",
+        "zone eyes for all other off the ball defenders"
+      ],
       "responsibilities": {
         "Mike": "Middle Hook",
         "Will": "Blitz B-Gap"
