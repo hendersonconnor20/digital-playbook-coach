@@ -17,6 +17,16 @@ function initNav() {
   document.querySelectorAll("nav button").forEach((btn) => {
     btn.addEventListener("click", () => showSection(btn.dataset.section));
   });
+  
+  // Make dashboard cards clickable
+  document.querySelectorAll(".dashboard-card").forEach((card) => {
+    card.addEventListener("click", () => {
+      const section = card.dataset.section;
+      if (section) {
+        showSection(section);
+      }
+    });
+  });
 }
 
 function loadPlays() {

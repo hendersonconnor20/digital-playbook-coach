@@ -105,12 +105,14 @@ section.active {
   padding: 20px;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
 }
 
 .dashboard-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(78, 205, 196, 0.3);
   border-color: #95e1d3;
+  background: linear-gradient(135deg, #1f4766 0%, #13304d 100%);
 }
 
 .dashboard-icon {
