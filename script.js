@@ -1822,11 +1822,15 @@ function uploadDiagram() {
 }
 
 function uploadVideo() {
+  console.log("uploadVideo() called");
   const fileEl = document.getElementById("videoFile");
   const urlEl = document.getElementById("videoUrl");
   const sel = document.getElementById("playSelectForVideo");
   
+  console.log("Elements found:", { fileEl, urlEl, sel });
+  
   const playName = sel ? sel.value : null;
+  console.log("Selected playName:", playName);
   if (!playName) return toast('Select the play to tag this video to.', { type: 'warn' });
   
   // Check if file upload or URL
