@@ -384,4 +384,144 @@ footer {
   background-color: #777;
 }
 
+/* Video components */
+.video-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.video-preview, .video-preview-small {
+  position: relative;
+  display: inline-block;
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.video-preview {
+  width: 100%;
+  max-width: 320px;
+  min-height: 180px;
+}
+
+.video-preview-small {
+  width: 120px;
+  height: 80px;
+}
+
+.video-thumbnail, .video-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.video-url-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(135deg, #1b3a52 0%, #0f2438 100%);
+  color: #4ecdc4;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.video-play-icon, .video-play-icon-small {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(78, 205, 196, 0.9);
+  color: #0f2438;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.video-play-icon {
+  width: 60px;
+  height: 60px;
+  font-size: 24px;
+}
+
+.video-play-icon-small {
+  width: 30px;
+  height: 30px;
+  font-size: 14px;
+}
+
+.video-preview:hover .video-play-icon,
+.video-preview-small:hover .video-play-icon-small {
+  background: rgba(149, 225, 211, 1);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.video-card {
+  max-width: 400px;
+}
+
+.video-icon {
+  font-size: 3rem;
+}
+
+/* Video lightbox */
+#videoLightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+#videoLightboxContent {
+  position: relative;
+  width: 90%;
+  max-width: 1000px;
+  background: #0f2438;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+#videoLightboxPlayer {
+  width: 100%;
+  min-height: 400px;
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+#videoLightboxClose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 2001;
+  transition: all 0.3s ease;
+}
+
+#videoLightboxClose:hover {
+  background: #c0392b;
+  transform: scale(1.05);
+}
 

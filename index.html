@@ -65,6 +65,14 @@
             </select>
             <input id="diagramFile" type="file" accept="image/*" />
             <button id="uploadDiagram">Upload Diagram</button>
+            
+            <!-- Video upload: associate a video with a play -->
+            <select id="playSelectForVideo" aria-label="Select play for video">
+              <option value="">-- Select play to tag video --</option>
+            </select>
+            <input id="videoFile" type="file" accept="video/*" />
+            <input id="videoUrl" type="text" placeholder="Or paste video URL (YouTube, Vimeo, etc.)" />
+            <button id="uploadVideo">Upload Video</button>
           </div>
           
           <!-- Add Play Form (hidden by default) -->
@@ -119,6 +127,8 @@
           <div id="playList"></div>
           <h3 style="margin-top:1rem">Diagram Gallery</h3>
           <div id="diagramGallery"></div>
+          <h3 style="margin-top:1rem">Video Gallery</h3>
+          <div id="videoGallery"></div>
         </section>
 
         <section id="flashcards">
@@ -248,6 +258,12 @@
         <div id="lightboxContent">
           <button id="lightboxClose">Close</button>
           <img id="lightboxImg" src="" alt="diagram" />
+        </div>
+      </div>
+      <div id="videoLightbox" class="hidden">
+        <div id="videoLightboxContent">
+          <button id="videoLightboxClose">Close</button>
+          <div id="videoLightboxPlayer"></div>
         </div>
       </div>
     </body>

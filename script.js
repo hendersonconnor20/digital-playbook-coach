@@ -3,6 +3,7 @@ let cards = [];
 let currentCard = 0;
 let promptLog = JSON.parse(localStorage.getItem("promptLog") || "[]");
 let diagrams = JSON.parse(localStorage.getItem("diagrams") || "[]");
+let videos = JSON.parse(localStorage.getItem("videos") || "[]");
 let studyContent = null;
 
 function showSection(id) {
@@ -39,6 +40,7 @@ function loadPlays() {
     .then((data) => {
       plays = data.plays || [];
       populateDiagramSelect();
+      populateVideoSelect();
       populatePlayList();
       return loadDiagrams();
     })
@@ -56,11 +58,15 @@ function loadDiagrams() {
         localStorage.setItem("diagrams", JSON.stringify(diagrams));
         populateDiagramGallery();
       }
+      loadVideos();
+      populateVideoGallery();
       return loadStudyContent();
     })
     .catch((e) => {
       console.warn("Could not load diagrams.json, using localStorage", e);
       populateDiagramGallery();
+      loadVideos();
+      populateVideoGallery();
       return loadStudyContent();
     });
 }
@@ -128,6 +134,53 @@ function populatePlayList() {
       div.appendChild(dWrap);
     }
 
+    // Display related videos
+    const vWrap = document.createElement("div");
+    vWrap.className = "video-wrap";
+    
+    const relatedVideos = videos.filter((v) => v.playName === play.name);
+    relatedVideos.forEach((v) => {
+      const vPreview = document.createElement("div");
+      vPreview.className = "video-preview-small";
+      vPreview.style.cursor = "pointer";
+      vPreview.title = v.name;
+      
+      if (v.type === 'url') {
+        const embedId = extractVideoId(v.url);
+        if (embedId.platform === 'youtube') {
+          const thumb = document.createElement("img");
+          thumb.src = `https://img.youtube.com/vi/${embedId.id}/default.jpg`;
+          thumb.alt = v.name;
+          thumb.className = "video-thumb";
+          vPreview.appendChild(thumb);
+        } else {
+          vPreview.innerHTML = `<div class="video-icon">📹</div>`;
+        }
+      } else {
+        const vid = document.createElement("video");
+        vid.src = v.dataUrl;
+        vid.className = "video-thumb";
+        vid.controls = false;
+        vPreview.appendChild(vid);
+      }
+      
+      const playIcon = document.createElement("div");
+      playIcon.className = "video-play-icon-small";
+      playIcon.innerHTML = "▶";
+      vPreview.appendChild(playIcon);
+      
+      vPreview.addEventListener("click", () => openVideoLightbox(v));
+      vWrap.appendChild(vPreview);
+    });
+    
+    if (vWrap.children.length) {
+      div.appendChild(document.createElement("hr"));
+      const label = document.createElement("div");
+      label.textContent = "Attached videos:";
+      div.appendChild(label);
+      div.appendChild(vWrap);
+    }
+
     // Add edit button
     const editBtn = document.createElement("button");
     editBtn.textContent = "Edit Play";
@@ -163,6 +216,7 @@ function populatePlayList() {
       plays = plays.filter((p) => p.name !== play.name);
       populatePlayList();
       populateDiagramSelect();
+      populateVideoSelect();
       recordPromptLog("delete_play", `Deleted play: ${play.name}`);
     });
     div.appendChild(deleteBtn);
@@ -1483,6 +1537,17 @@ function populateDiagramSelect() {
   if (current) sel.value = current;
 }
 
+function populateVideoSelect() {
+  const sel = document.getElementById('playSelectForVideo');
+  if (!sel) return;
+  const current = sel.value;
+  sel.innerHTML = '<option value="">-- Select play to tag video --</option>';
+  plays.forEach(p => {
+    const opt = document.createElement('option'); opt.value = p.name; opt.textContent = p.name; sel.appendChild(opt);
+  });
+  if (current) sel.value = current;
+}
+
 function populateDiagramGallery() {
   const gallery = document.getElementById("diagramGallery");
   if (!gallery) return;
@@ -1538,6 +1603,156 @@ function populateDiagramGallery() {
     card.appendChild(del);
     gallery.appendChild(card);
   });
+}
+
+function populateVideoGallery() {
+  const gallery = document.getElementById("videoGallery");
+  if (!gallery) return;
+  gallery.innerHTML = "";
+  
+  if (!videos.length) {
+    gallery.innerHTML = "<p>No videos available.</p>";
+    return;
+  }
+  
+  videos.forEach((v) => {
+    const card = document.createElement("div");
+    card.className = "playCard video-card";
+    
+    // Create video preview/thumbnail
+    const preview = document.createElement("div");
+    preview.className = "video-preview";
+    preview.style.cursor = "pointer";
+    
+    if (v.type === 'url') {
+      // For URL embeds, show a play button overlay
+      const embedId = extractVideoId(v.url);
+      if (embedId.platform === 'youtube') {
+        const thumb = document.createElement("img");
+        thumb.src = `https://img.youtube.com/vi/${embedId.id}/mqdefault.jpg`;
+        thumb.alt = v.name;
+        thumb.className = "video-thumbnail";
+        preview.appendChild(thumb);
+      } else {
+        preview.innerHTML = `<div class="video-url-preview">📹 ${v.name}</div>`;
+      }
+    } else {
+      // For file uploads, use native video element
+      const vid = document.createElement("video");
+      vid.src = v.dataUrl;
+      vid.className = "video-thumbnail";
+      vid.controls = false;
+      preview.appendChild(vid);
+    }
+    
+    // Add play icon overlay
+    const playIcon = document.createElement("div");
+    playIcon.className = "video-play-icon";
+    playIcon.innerHTML = "▶";
+    preview.appendChild(playIcon);
+    
+    preview.addEventListener("click", () => openVideoLightbox(v));
+    
+    const info = document.createElement("div");
+    info.innerHTML = `<strong>${v.name}</strong> — tagged to <em>${v.playName}</em>`;
+    
+    card.appendChild(preview);
+    card.appendChild(info);
+    
+    const del = document.createElement("button");
+    del.textContent = "Delete";
+    del.addEventListener("click", () => {
+      if (!confirm("Delete this video?")) return;
+      videos = videos.filter((x) => x.id !== v.id);
+      saveVideos();
+      populateVideoGallery();
+      populatePlayList();
+      toast('Video deleted.', { type: 'success' });
+    });
+    card.appendChild(del);
+    gallery.appendChild(card);
+  });
+}
+
+function extractVideoId(url) {
+  // YouTube patterns
+  const youtubePatterns = [
+    /youtube\.com\/watch\?v=([^&]+)/,
+    /youtu\.be\/([^?]+)/,
+    /youtube\.com\/embed\/([^?]+)/
+  ];
+  
+  for (const pattern of youtubePatterns) {
+    const match = url.match(pattern);
+    if (match) return { platform: 'youtube', id: match[1] };
+  }
+  
+  // Vimeo pattern
+  const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
+  if (vimeoMatch) return { platform: 'vimeo', id: vimeoMatch[1] };
+  
+  return { platform: 'unknown', id: null };
+}
+
+function openVideoLightbox(video) {
+  const lightbox = document.getElementById("videoLightbox");
+  const player = document.getElementById("videoLightboxPlayer");
+  
+  player.innerHTML = "";
+  
+  if (video.type === 'url') {
+    const embedId = extractVideoId(video.url);
+    
+    if (embedId.platform === 'youtube') {
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://www.youtube.com/embed/${embedId.id}?autoplay=1`;
+      iframe.width = "100%";
+      iframe.height = "500";
+      iframe.frameBorder = "0";
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+      iframe.allowFullscreen = true;
+      player.appendChild(iframe);
+    } else if (embedId.platform === 'vimeo') {
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://player.vimeo.com/video/${embedId.id}?autoplay=1`;
+      iframe.width = "100%";
+      iframe.height = "500";
+      iframe.frameBorder = "0";
+      iframe.allow = "autoplay; fullscreen; picture-in-picture";
+      iframe.allowFullscreen = true;
+      player.appendChild(iframe);
+    } else {
+      // Generic video embed
+      const vid = document.createElement("video");
+      vid.src = video.url;
+      vid.controls = true;
+      vid.autoplay = true;
+      vid.style.width = "100%";
+      vid.style.maxHeight = "500px";
+      player.appendChild(vid);
+    }
+  } else {
+    // File upload
+    const vid = document.createElement("video");
+    vid.src = video.dataUrl;
+    vid.controls = true;
+    vid.autoplay = true;
+    vid.style.width = "100%";
+    vid.style.maxHeight = "500px";
+    player.appendChild(vid);
+  }
+  
+  lightbox.classList.remove("hidden");
+}
+
+function closeVideoLightbox() {
+  const lightbox = document.getElementById("videoLightbox");
+  const player = document.getElementById("videoLightboxPlayer");
+  
+  // Stop video playback
+  player.innerHTML = "";
+  
+  lightbox.classList.add("hidden");
 }
 
 function renderCard() {
@@ -1605,6 +1820,76 @@ function uploadDiagram() {
   };
   reader.readAsDataURL(f);
 }
+
+function uploadVideo() {
+  const fileEl = document.getElementById("videoFile");
+  const urlEl = document.getElementById("videoUrl");
+  const sel = document.getElementById("playSelectForVideo");
+  
+  const playName = sel ? sel.value : null;
+  if (!playName) return toast('Select the play to tag this video to.', { type: 'warn' });
+  
+  // Check if file upload or URL
+  if (fileEl && fileEl.files[0]) {
+    // File upload
+    const f = fileEl.files[0];
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const dataUrl = ev.target.result;
+      const entry = { 
+        id: Date.now().toString(), 
+        playName, 
+        name: f.name, 
+        type: 'file',
+        dataUrl, 
+        note: "" 
+      };
+      videos.unshift(entry);
+      saveVideos();
+      populateVideoGallery();
+      populatePlayList();
+      recordPromptLog("upload_video", `Uploaded video ${f.name} for ${playName}`);
+      fileEl.value = null;
+      toast('Video uploaded successfully!', { type: 'success' });
+    };
+    reader.readAsDataURL(f);
+  } else if (urlEl && urlEl.value.trim()) {
+    // URL embed
+    const videoUrl = urlEl.value.trim();
+    const entry = { 
+      id: Date.now().toString(), 
+      playName, 
+      name: `Video for ${playName}`,
+      type: 'url',
+      url: videoUrl, 
+      note: "" 
+    };
+    videos.unshift(entry);
+    saveVideos();
+    populateVideoGallery();
+    populatePlayList();
+    recordPromptLog("embed_video", `Embedded video URL for ${playName}`);
+    urlEl.value = '';
+    toast('Video URL added successfully!', { type: 'success' });
+  } else {
+    return toast('Choose a video file or paste a URL.', { type: 'warn' });
+  }
+}
+
+function saveVideos() {
+  localStorage.setItem("videos", JSON.stringify(videos));
+}
+
+function loadVideos() {
+  try {
+    const data = localStorage.getItem("videos");
+    if (data) {
+      videos = JSON.parse(data);
+    }
+  } catch (err) {
+    console.error('Error loading videos:', err);
+  }
+}
 function wirePromptControls() {
   document.getElementById("downloadLog").addEventListener("click", () => {
     const blob = new Blob([JSON.stringify(promptLog, null, 2)], { type: "application/json" });
@@ -1628,6 +1913,7 @@ function exportPlaysToFile() {
   const dataToSave = {
     plays: plays,
     diagrams: diagrams,
+    videos: videos,
     exportDate: new Date().toISOString()
   };
   const blob = new Blob([JSON.stringify(dataToSave, null, 2)], { type: "application/json" });
@@ -1638,7 +1924,7 @@ function exportPlaysToFile() {
   a.click();
   URL.revokeObjectURL(url);
   toast('Playbook exported successfully!', { type: 'success' });
-  recordPromptLog("export_playbook", `Exported ${plays.length} plays and ${diagrams.length} diagrams`);
+  recordPromptLog("export_playbook", `Exported ${plays.length} plays, ${diagrams.length} diagrams, and ${videos.length} videos`);
 }
 
 /* -- Ready -- */
@@ -1677,6 +1963,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // diagram handlers
   const uploadBtn = document.getElementById("uploadDiagram");
   if (uploadBtn) uploadBtn.addEventListener("click", uploadDiagram);
+  // video handlers
+  const uploadVideoBtn = document.getElementById("uploadVideo");
+  if (uploadVideoBtn) uploadVideoBtn.addEventListener("click", uploadVideo);
   // lightbox handlers
   const lbClose = document.getElementById("lightboxClose");
   if (lbClose) lbClose.addEventListener("click", closeLightbox);
@@ -1684,6 +1973,15 @@ document.addEventListener("DOMContentLoaded", () => {
   if (lb) {
     lb.addEventListener("click", (e) => {
       if (e.target === lb) closeLightbox();
+    });
+  }
+  // video lightbox handlers
+  const vLbClose = document.getElementById("videoLightboxClose");
+  if (vLbClose) vLbClose.addEventListener("click", closeVideoLightbox);
+  const vLb = document.getElementById("videoLightbox");
+  if (vLb) {
+    vLb.addEventListener("click", (e) => {
+      if (e.target === vLb) closeVideoLightbox();
     });
   }
   updatePromptList();
