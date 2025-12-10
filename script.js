@@ -1839,7 +1839,6 @@ function uploadVideo() {
     return toast('Please paste a video URL (YouTube, Vimeo, etc.).', { type: 'warn' });
   }
 }
-}
 
 function saveVideos() {
   localStorage.setItem("videos", JSON.stringify(videos));
