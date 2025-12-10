@@ -1742,7 +1742,7 @@ function openVideoLightbox(video) {
     player.appendChild(vid);
   }
   
-  lightbox.classList.remove("hidden");
+  lightbox.classList.add("active");
 }
 
 function closeVideoLightbox() {
@@ -1752,7 +1752,7 @@ function closeVideoLightbox() {
   // Stop video playback
   player.innerHTML = "";
   
-  lightbox.classList.add("hidden");
+  lightbox.classList.remove("active");
 }
 
 function renderCard() {
