@@ -430,6 +430,18 @@ footer {
   font-weight: bold;
 }
 
+.video-file-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(135deg, #2c1b52 0%, #18083d 100%);
+  color: #9b6dff;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
 .video-play-icon, .video-play-icon-small {
   position: absolute;
   top: 50%;

@@ -5,6 +5,61 @@ let promptLog = JSON.parse(localStorage.getItem("promptLog") || "[]");
 let diagrams = JSON.parse(localStorage.getItem("diagrams") || "[]");
 let videos = JSON.parse(localStorage.getItem("videos") || "[]");
 let studyContent = null;
+let db = null;
+
+// Initialize IndexedDB for video file storage
+function initDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open("PlaybookVideoDB", 1);
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => {
+      db = request.result;
+      resolve(db);
+    };
+    request.onupgradeneeded = (event) => {
+      const database = event.target.result;
+      if (!database.objectStoreNames.contains("videos")) {
+        database.createObjectStore("videos", { keyPath: "id" });
+      }
+    };
+  });
+}
+
+// Save video file to IndexedDB
+function saveVideoToDB(id, blob) {
+  return new Promise((resolve, reject) => {
+    if (!db) return reject(new Error("Database not initialized"));
+    const transaction = db.transaction(["videos"], "readwrite");
+    const store = transaction.objectStore("videos");
+    const request = store.put({ id, blob });
+    request.onsuccess = () => resolve();
+    request.onerror = () => reject(request.error);
+  });
+}
+
+// Get video file from IndexedDB
+function getVideoFromDB(id) {
+  return new Promise((resolve, reject) => {
+    if (!db) return reject(new Error("Database not initialized"));
+    const transaction = db.transaction(["videos"], "readonly");
+    const store = transaction.objectStore("videos");
+    const request = store.get(id);
+    request.onsuccess = () => resolve(request.result ? request.result.blob : null);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+// Delete video file from IndexedDB
+function deleteVideoFromDB(id) {
+  return new Promise((resolve, reject) => {
+    if (!db) return reject(new Error("Database not initialized"));
+    const transaction = db.transaction(["videos"], "readwrite");
+    const store = transaction.objectStore("videos");
+    const request = store.delete(id);
+    request.onsuccess = () => resolve();
+    request.onerror = () => reject(request.error);
+  });
+}
 
 function showSection(id) {
   document.querySelectorAll("section").forEach((section) => {
@@ -1615,7 +1670,7 @@ function populateVideoGallery() {
     return;
   }
   
-  videos.forEach((v) => {
+  videos.forEach(async (v) => {
     const card = document.createElement("div");
     card.className = "playCard video-card";
     
@@ -1636,13 +1691,9 @@ function populateVideoGallery() {
       } else {
         preview.innerHTML = `<div class="video-url-preview">📹 ${v.name}</div>`;
       }
-    } else {
-      // For file uploads, use native video element
-      const vid = document.createElement("video");
-      vid.src = v.dataUrl;
-      vid.className = "video-thumbnail";
-      vid.controls = false;
-      preview.appendChild(vid);
+    } else if (v.type === 'file') {
+      // For file uploads, show video icon
+      preview.innerHTML = `<div class="video-file-preview">🎬 ${v.name}</div>`;
     }
     
     // Add play icon overlay
@@ -1661,8 +1712,16 @@ function populateVideoGallery() {
     
     const del = document.createElement("button");
     del.textContent = "Delete";
-    del.addEventListener("click", () => {
+    del.addEventListener("click", async () => {
       if (!confirm("Delete this video?")) return;
+      // Delete from IndexedDB if it's a file
+      if (v.type === 'file') {
+        try {
+          await deleteVideoFromDB(v.id);
+        } catch (err) {
+          console.error('Error deleting video from DB:', err);
+        }
+      }
       videos = videos.filter((x) => x.id !== v.id);
       saveVideos();
       populateVideoGallery();
@@ -1700,35 +1759,58 @@ function openVideoLightbox(video) {
   
   player.innerHTML = "";
   
-  const embedId = extractVideoId(video.url);
-  
-  if (embedId.platform === 'youtube') {
-    const iframe = document.createElement("iframe");
-    iframe.src = `https://www.youtube.com/embed/${embedId.id}?autoplay=1`;
-    iframe.width = "100%";
-    iframe.height = "500";
-    iframe.frameBorder = "0";
-    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-    iframe.allowFullscreen = true;
-    player.appendChild(iframe);
-  } else if (embedId.platform === 'vimeo') {
-    const iframe = document.createElement("iframe");
-    iframe.src = `https://player.vimeo.com/video/${embedId.id}?autoplay=1`;
-    iframe.width = "100%";
-    iframe.height = "500";
-    iframe.frameBorder = "0";
-    iframe.allow = "autoplay; fullscreen; picture-in-picture";
-    iframe.allowFullscreen = true;
-    player.appendChild(iframe);
+  if (video.type === 'file') {
+    // Load file from IndexedDB
+    getVideoFromDB(video.id)
+      .then((blob) => {
+        if (!blob) {
+          toast('Video file not found.', { type: 'error' });
+          return;
+        }
+        const vid = document.createElement("video");
+        vid.src = URL.createObjectURL(blob);
+        vid.controls = true;
+        vid.autoplay = true;
+        vid.style.width = "100%";
+        vid.style.maxHeight = "500px";
+        player.appendChild(vid);
+      })
+      .catch((err) => {
+        console.error('Error loading video:', err);
+        toast('Error loading video file.', { type: 'error' });
+      });
   } else {
-    // Generic video embed (direct URL)
-    const vid = document.createElement("video");
-    vid.src = video.url;
-    vid.controls = true;
-    vid.autoplay = true;
-    vid.style.width = "100%";
-    vid.style.maxHeight = "500px";
-    player.appendChild(vid);
+    // URL-based video
+    const embedId = extractVideoId(video.url);
+    
+    if (embedId.platform === 'youtube') {
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://www.youtube.com/embed/${embedId.id}?autoplay=1`;
+      iframe.width = "100%";
+      iframe.height = "500";
+      iframe.frameBorder = "0";
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+      iframe.allowFullscreen = true;
+      player.appendChild(iframe);
+    } else if (embedId.platform === 'vimeo') {
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://player.vimeo.com/video/${embedId.id}?autoplay=1`;
+      iframe.width = "100%";
+      iframe.height = "500";
+      iframe.frameBorder = "0";
+      iframe.allow = "autoplay; fullscreen; picture-in-picture";
+      iframe.allowFullscreen = true;
+      player.appendChild(iframe);
+    } else {
+      // Generic video embed (direct URL)
+      const vid = document.createElement("video");
+      vid.src = video.url;
+      vid.controls = true;
+      vid.autoplay = true;
+      vid.style.width = "100%";
+      vid.style.maxHeight = "500px";
+      player.appendChild(vid);
+    }
   }
   
   lightbox.classList.add("active");
@@ -1811,13 +1893,41 @@ function uploadDiagram() {
 }
 
 function uploadVideo() {
+  const fileEl = document.getElementById("videoFile");
   const urlEl = document.getElementById("videoUrl");
   const sel = document.getElementById("playSelectForVideo");
   
   const playName = sel ? sel.value : null;
   if (!playName) return toast('Select the play to tag this video to.', { type: 'warn' });
   
-  if (urlEl && urlEl.value.trim()) {
+  // Check if file upload
+  if (fileEl && fileEl.files[0]) {
+    const file = fileEl.files[0];
+    const id = Date.now().toString();
+    const entry = { 
+      id, 
+      playName, 
+      name: file.name,
+      type: 'file',
+      note: "" 
+    };
+    
+    // Save file to IndexedDB
+    saveVideoToDB(id, file)
+      .then(() => {
+        videos.unshift(entry);
+        saveVideos();
+        populateVideoGallery();
+        populatePlayList();
+        recordPromptLog("upload_video", `Uploaded video ${file.name} for ${playName}`);
+        fileEl.value = null;
+        toast('Video file uploaded successfully!', { type: 'success' });
+      })
+      .catch((err) => {
+        console.error('Error saving video:', err);
+        toast('Error uploading video. File may be too large.', { type: 'error' });
+      });
+  } else if (urlEl && urlEl.value.trim()) {
     // URL embed
     const videoUrl = urlEl.value.trim();
     const entry = { 
@@ -1836,7 +1946,7 @@ function uploadVideo() {
     urlEl.value = '';
     toast('Video URL added successfully!', { type: 'success' });
   } else {
-    return toast('Please paste a video URL (YouTube, Vimeo, etc.).', { type: 'warn' });
+    return toast('Choose a video file or paste a URL.', { type: 'warn' });
   }
 }
 
@@ -1892,8 +2002,17 @@ function exportPlaysToFile() {
 }
 
 /* -- Ready -- */
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   console.log('Digital Playbook Coach: script loaded, DOMContentLoaded fired');
+  
+  // Initialize IndexedDB for video storage
+  try {
+    await initDB();
+    console.log('IndexedDB initialized for video storage');
+  } catch (err) {
+    console.error('Error initializing IndexedDB:', err);
+  }
+  
   initNav();
   loadPlays().then(() => {
     // show loaded or saved plays
