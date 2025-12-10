@@ -1700,41 +1700,30 @@ function openVideoLightbox(video) {
   
   player.innerHTML = "";
   
-  if (video.type === 'url') {
-    const embedId = extractVideoId(video.url);
-    
-    if (embedId.platform === 'youtube') {
-      const iframe = document.createElement("iframe");
-      iframe.src = `https://www.youtube.com/embed/${embedId.id}?autoplay=1`;
-      iframe.width = "100%";
-      iframe.height = "500";
-      iframe.frameBorder = "0";
-      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-      iframe.allowFullscreen = true;
-      player.appendChild(iframe);
-    } else if (embedId.platform === 'vimeo') {
-      const iframe = document.createElement("iframe");
-      iframe.src = `https://player.vimeo.com/video/${embedId.id}?autoplay=1`;
-      iframe.width = "100%";
-      iframe.height = "500";
-      iframe.frameBorder = "0";
-      iframe.allow = "autoplay; fullscreen; picture-in-picture";
-      iframe.allowFullscreen = true;
-      player.appendChild(iframe);
-    } else {
-      // Generic video embed
-      const vid = document.createElement("video");
-      vid.src = video.url;
-      vid.controls = true;
-      vid.autoplay = true;
-      vid.style.width = "100%";
-      vid.style.maxHeight = "500px";
-      player.appendChild(vid);
-    }
+  const embedId = extractVideoId(video.url);
+  
+  if (embedId.platform === 'youtube') {
+    const iframe = document.createElement("iframe");
+    iframe.src = `https://www.youtube.com/embed/${embedId.id}?autoplay=1`;
+    iframe.width = "100%";
+    iframe.height = "500";
+    iframe.frameBorder = "0";
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+    iframe.allowFullscreen = true;
+    player.appendChild(iframe);
+  } else if (embedId.platform === 'vimeo') {
+    const iframe = document.createElement("iframe");
+    iframe.src = `https://player.vimeo.com/video/${embedId.id}?autoplay=1`;
+    iframe.width = "100%";
+    iframe.height = "500";
+    iframe.frameBorder = "0";
+    iframe.allow = "autoplay; fullscreen; picture-in-picture";
+    iframe.allowFullscreen = true;
+    player.appendChild(iframe);
   } else {
-    // File upload
+    // Generic video embed (direct URL)
     const vid = document.createElement("video");
-    vid.src = video.dataUrl;
+    vid.src = video.url;
     vid.controls = true;
     vid.autoplay = true;
     vid.style.width = "100%";
@@ -1822,42 +1811,13 @@ function uploadDiagram() {
 }
 
 function uploadVideo() {
-  console.log("uploadVideo() called");
-  const fileEl = document.getElementById("videoFile");
   const urlEl = document.getElementById("videoUrl");
   const sel = document.getElementById("playSelectForVideo");
   
-  console.log("Elements found:", { fileEl, urlEl, sel });
-  
   const playName = sel ? sel.value : null;
-  console.log("Selected playName:", playName);
   if (!playName) return toast('Select the play to tag this video to.', { type: 'warn' });
   
-  // Check if file upload or URL
-  if (fileEl && fileEl.files[0]) {
-    // File upload
-    const f = fileEl.files[0];
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      const dataUrl = ev.target.result;
-      const entry = { 
-        id: Date.now().toString(), 
-        playName, 
-        name: f.name, 
-        type: 'file',
-        dataUrl, 
-        note: "" 
-      };
-      videos.unshift(entry);
-      saveVideos();
-      populateVideoGallery();
-      populatePlayList();
-      recordPromptLog("upload_video", `Uploaded video ${f.name} for ${playName}`);
-      fileEl.value = null;
-      toast('Video uploaded successfully!', { type: 'success' });
-    };
-    reader.readAsDataURL(f);
-  } else if (urlEl && urlEl.value.trim()) {
+  if (urlEl && urlEl.value.trim()) {
     // URL embed
     const videoUrl = urlEl.value.trim();
     const entry = { 
@@ -1876,8 +1836,9 @@ function uploadVideo() {
     urlEl.value = '';
     toast('Video URL added successfully!', { type: 'success' });
   } else {
-    return toast('Choose a video file or paste a URL.', { type: 'warn' });
+    return toast('Please paste a video URL (YouTube, Vimeo, etc.).', { type: 'warn' });
   }
+}
 }
 
 function saveVideos() {
