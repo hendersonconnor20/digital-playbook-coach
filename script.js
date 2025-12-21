@@ -1585,7 +1585,6 @@ function saveDiagrams() {
   // Saving to localStorage was causing stale data to overwrite fresh data from plays.json
   console.log("Diagrams are permanently stored in plays.json - no localStorage caching");
 }
-}
 
 function populateDiagramSelect() {
   const sel = document.getElementById('playSelectForDiagram');
