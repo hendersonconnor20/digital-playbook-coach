@@ -2,7 +2,9 @@ let plays = [];
 let cards = [];
 let currentCard = 0;
 let promptLog = JSON.parse(localStorage.getItem("promptLog") || "[]");
-let diagrams = JSON.parse(localStorage.getItem("diagrams") || "[]");
+// CRITICAL FIX: Do NOT initialize diagrams from localStorage - always load fresh from plays.json
+// This prevents stale cached data from overwriting embedded diagrams
+let diagrams = [];
 let videos = JSON.parse(localStorage.getItem("videos") || "[]");
 let studyContent = null;
 let db = null;
@@ -94,6 +96,9 @@ function loadPlays() {
     .then((r) => r.json())
     .then((data) => {
       plays = data.plays || [];
+      // IMPORTANT: Store the complete plays.json data including diagrams array
+      window.playsJsonDiagrams = data.diagrams || [];
+      console.log("Loaded " + plays.length + " plays and " + window.playsJsonDiagrams.length + " diagrams from plays.json");
       populateDiagramSelect();
       populateVideoSelect();
       populatePlayList();
@@ -105,25 +110,24 @@ function loadPlays() {
 }
 
 function loadDiagrams() {
-  return fetch("diagrams.json")
-    .then((r) => r.json())
-    .then((data) => {
-      if (Array.isArray(data) && data.length > 0) {
-        diagrams = data;
-        localStorage.setItem("diagrams", JSON.stringify(diagrams));
-        populateDiagramGallery();
-      }
-      loadVideos();
-      populateVideoGallery();
-      return loadStudyContent();
-    })
-    .catch((e) => {
-      console.warn("Could not load diagrams.json, using localStorage", e);
-      populateDiagramGallery();
-      loadVideos();
-      populateVideoGallery();
-      return loadStudyContent();
-    });
+  // CRITICAL FIX: Load diagrams ONLY from plays.json - never from diagrams.json
+  // All diagrams are now permanently embedded in plays.json
+  if (window.playsJsonDiagrams && Array.isArray(window.playsJsonDiagrams) && window.playsJsonDiagrams.length > 0) {
+    diagrams = window.playsJsonDiagrams;
+    console.log("✓ Loaded " + diagrams.length + " diagrams from plays.json embedded data");
+    populateDiagramGallery();
+    loadVideos();
+    populateVideoGallery();
+    return loadStudyContent();
+  }
+  
+  // Error state - diagrams should always be in plays.json now
+  console.error("ERROR: No diagrams found in plays.json. Check that diagrams array is present in the JSON file.");
+  diagrams = [];
+  populateDiagramGallery();
+  loadVideos();
+  populateVideoGallery();
+  return loadStudyContent();
 }
 
 function loadStudyContent() {
@@ -1576,9 +1580,11 @@ function showImportPreview(parsedPlays) {
 }
 
 function saveDiagrams() {
-  try {
-    localStorage.setItem('diagrams', JSON.stringify(diagrams));
-  } catch (e) { console.warn('Could not save diagrams', e); }
+  // CRITICAL FIX: Do NOT save diagrams to localStorage anymore
+  // Diagrams are permanently embedded in plays.json
+  // Saving to localStorage was causing stale data to overwrite fresh data from plays.json
+  console.log("Diagrams are permanently stored in plays.json - no localStorage caching");
+}
 }
 
 function populateDiagramSelect() {
