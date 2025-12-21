@@ -101,8 +101,10 @@ function loadPlays() {
       console.log("Loaded " + plays.length + " plays and " + window.playsJsonDiagrams.length + " diagrams from plays.json");
       populateDiagramSelect();
       populateVideoSelect();
+      // CRITICAL FIX: Call loadDiagrams FIRST to populate the global diagrams array before populatePlayList uses it
+      loadDiagrams();
+      // Now populatePlayList can access the populated diagrams array
       populatePlayList();
-      return loadDiagrams();
     })
     .catch((e) => {
       console.warn("Could not load plays.json", e);
@@ -118,16 +120,16 @@ function loadDiagrams() {
     populateDiagramGallery();
     loadVideos();
     populateVideoGallery();
-    return loadStudyContent();
+    loadStudyContent();
+  } else {
+    // Error state - diagrams should always be in plays.json now
+    console.error("ERROR: No diagrams found in plays.json. Check that diagrams array is present in the JSON file.");
+    diagrams = [];
+    populateDiagramGallery();
+    loadVideos();
+    populateVideoGallery();
+    loadStudyContent();
   }
-  
-  // Error state - diagrams should always be in plays.json now
-  console.error("ERROR: No diagrams found in plays.json. Check that diagrams array is present in the JSON file.");
-  diagrams = [];
-  populateDiagramGallery();
-  loadVideos();
-  populateVideoGallery();
-  return loadStudyContent();
 }
 
 function loadStudyContent() {
